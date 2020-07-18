@@ -34,9 +34,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BarChartViewModel"/> class.
         /// </summary>
-        public BarChartViewModel()
+        /// <param name="globalData">The globalData<see cref="GlobalData"/>.</param>
+        internal BarChartViewModel(GlobalData globalData)
         {
             this.BarModels = new ObservableCollection<BarModel>();
+            this.GlobalData = globalData;
         }
 
         #endregion Constructors
@@ -74,6 +76,11 @@
         /// Gets or sets the BarWidth.
         /// </summary>
         public double BarWidth { get => _barWidth; set => this.Set(this.PropertyChangedHandler, ref _barWidth, value, new RangeDouble(10, 10000)); }
+
+        /// <summary>
+        /// Gets the GlobalData.
+        /// </summary>
+        public GlobalData GlobalData { get; }
 
         /// <summary>
         /// Gets or sets the RangeX.

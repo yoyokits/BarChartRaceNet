@@ -6,6 +6,7 @@
     xmlns:extension="clr-namespace:BarChartRaceNet.Extensions;assembly=BarChartRaceNet"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:BarChartRaceNetTestApp.ViewModels"
     Title="BarChartRaceTestApp"
     d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel}"
     Closed="{extension:EventBinding Command={Binding ClosedCommand}}"

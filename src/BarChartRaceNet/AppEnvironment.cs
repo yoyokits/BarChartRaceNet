@@ -64,6 +64,11 @@
         public static string ProjectUrl { get; } = "https://github.com/yoyokits/BarChartRaceNet";
 
         /// <summary>
+        /// Gets the UserDocumentsFolder.
+        /// </summary>
+        public static string UserDocumentsFolder { get; } = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        /// <summary>
         /// Gets the UserLocalApplicationData.
         /// </summary>
         public static string UserLocalApplicationData { get; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -72,11 +77,6 @@
         /// Gets the UserProfile.
         /// </summary>
         public static string UserProfile { get; } = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
-        /// <summary>
-        /// Gets the UserVideoFolder.
-        /// </summary>
-        public static string UserVideoFolder { get; } = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
         /// <summary>
         /// Gets the Version.

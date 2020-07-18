@@ -1,13 +1,62 @@
 ﻿<mah:MetroWindow
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     x:Class="BarChartRaceNet.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:BarChartRaceNet.Extensions"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
+    xmlns:viewmodels="clr-namespace:BarChartRaceNet.ViewModels"
+    xmlns:views="clr-namespace:BarChartRaceNet.Views"
+    Title="Cekli Bar Chart Race"
     Width="800"
     Height="450"
+    d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel}"
+    Closing="{extensions:EventBinding ClosingCommand,
+                                      CommandParameter={Binding RelativeSource={RelativeSource Self}}}"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    Loaded="{extensions:EventBinding LoadedCommand,
+                                     CommandParameter={Binding RelativeSource={RelativeSource Self}}}"
     mc:Ignorable="d">
-    <Grid />
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/IconResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ToolBar Grid.Row="0">
+            <!--  ToolBar buttons  -->
+            <ItemsControl Height="32" ItemsSource="{Binding ToolBarButtons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Width="30"
+                            Height="30"
+                            Margin="0,0,2,0"
+                            Command="{Binding Command}"
+                            IsEnabled="{Binding IsEnabled}"
+                            ToolTip="{Binding ToolTip}">
+                            <Path Data="{Binding Icon}" Style="{StaticResource IconPathButtonBaseStyle}" />
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ToolBar>
+        <ScrollViewer Grid.Row="1">
+            <views:BarChartView Margin="8" DataContext="{Binding BarChartViewModel}" />
+        </ScrollViewer>
+        <views:DatasetView Grid.Row="2" DataContext="{Binding DatasetViewModel}" />
+    </Grid>
 </mah:MetroWindow>
