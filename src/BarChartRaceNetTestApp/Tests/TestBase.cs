@@ -1,6 +1,7 @@
 ﻿namespace BarChartRaceNetTestApp.Tests
 {
     using BarChartRaceNet.Common;
+    using MahApps.Metro.Controls;
     using System.Windows;
     using System.Windows.Input;
 
@@ -43,7 +44,7 @@
         /// The Test.
         /// </summary>
         /// <param name="testWindow">The testWindow<see cref="Window"/>.</param>
-        protected abstract void Test(Window testWindow);
+        protected abstract void Test(MetroWindow testWindow);
 
         /// <summary>
         /// The InternalTest.
@@ -52,7 +53,7 @@
         private void InternalTest(object obj)
         {
             Settings.Default.LastTest = this.Name;
-            this.Test(obj as Window);
+            this.Test(obj as MetroWindow);
         }
 
         #endregion Methods

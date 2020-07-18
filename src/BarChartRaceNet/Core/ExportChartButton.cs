@@ -28,6 +28,11 @@
         /// </summary>
         internal Action<string> ExportChartAction { get; set; }
 
+        /// <summary>
+        /// Gets or sets the InitialDirectory.
+        /// </summary>
+        internal string InitialDirectory { get; set; } = AppEnvironment.UserDocumentsFolder;
+
         #endregion Properties
 
         #region Methods
@@ -45,6 +50,7 @@
 
             var dialog = new VistaSaveFileDialog
             {
+                InitialDirectory = this.InitialDirectory,
                 Filter = "MPEG4 files (*.mp4)|*.mp4"
             };
             if ((bool)dialog.ShowDialog())

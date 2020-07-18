@@ -19,6 +19,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData\CountryTest.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\CountryTest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
   </ItemGroup>
 

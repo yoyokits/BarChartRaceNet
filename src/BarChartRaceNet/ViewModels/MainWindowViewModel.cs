@@ -26,17 +26,12 @@
             this.DatasetViewModel = new DatasetViewModel(this.GlobalData);
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
-                new LoadButton { LoadAction = this.OnLoadCsvFile },
-                new ExportChartButton { ExportChartAction = this.OnExportChart },
+                new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
+                new ExportChartButton { ExportChartAction = this.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);
             this.LoadedCommand = new RelayCommand(this.OnLoaded, nameof(this.LoadedCommand));
-        }
-
-        private void OnExportChart(string obj)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion Constructors
@@ -100,6 +95,14 @@
             settings.WindowState = window.WindowState;
             SettingsHelper.Save(settings, window, this);
             this.Dispose();
+        }
+
+        /// <summary>
+        /// The OnExportChart.
+        /// </summary>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
+        private void OnExportChart(string filePath)
+        {
         }
 
         /// <summary>

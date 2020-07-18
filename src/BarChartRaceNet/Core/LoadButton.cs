@@ -24,6 +24,11 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the InitialDirectory.
+        /// </summary>
+        internal string InitialDirectory { get; set; } = AppEnvironment.UserDocumentsFolder;
+
+        /// <summary>
         /// Gets or sets the LoadAction.
         /// </summary>
         internal Action<string> LoadAction { get; set; }
@@ -45,7 +50,8 @@
 
             var dialog = new VistaOpenFileDialog
             {
-                Filter = "Csv files (*.csv)|*.csv"
+                Filter = "Csv files (*.csv)|*.csv",
+                InitialDirectory = this.InitialDirectory
             };
             if ((bool)dialog.ShowDialog())
             {

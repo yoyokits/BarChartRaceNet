@@ -30,6 +30,7 @@
         {
             this.GlobalData = globalData;
             this.PropertyChanged += this.OnPropertyChanged;
+            this.CsvFilePath = this.GlobalData.SettingsModel.LastOpenedCsvFile;
         }
 
         #endregion Constructors
@@ -67,6 +68,8 @@
                 case nameof(this.CsvFilePath):
                     if (File.Exists(this.CsvFilePath))
                     {
+                        this.GlobalData.SettingsModel.LastOpenedCsvFile = this.CsvFilePath;
+                        this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
                         this.ItemsSource = CsvFileHelper.Load(this.CsvFilePath);
                     }
                     else

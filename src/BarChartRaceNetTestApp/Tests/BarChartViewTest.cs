@@ -6,6 +6,7 @@
     using BarChartRaceNet.ViewModels;
     using BarChartRaceNet.Views;
     using BarChartRaceNetTestApp.TestHelpers;
+    using MahApps.Metro.Controls;
     using System.Windows;
 
     /// <summary>
@@ -30,9 +31,10 @@
         /// The Test.
         /// </summary>
         /// <param name="testWindow">The testWindow<see cref="Window"/>.</param>
-        protected override void Test(Window testWindow)
+        protected override void Test(MetroWindow testWindow)
         {
-            var viewModel = new BarChartViewModel();
+            var globalData = new GlobalData { MainWindow = testWindow };
+            var viewModel = new BarChartViewModel(globalData);
             var view = new BarChartView { DataContext = viewModel };
             this.GenerateDummyData(viewModel);
             WindowFactory.CreateAndShow(view, testWindow);

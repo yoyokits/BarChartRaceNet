@@ -14,6 +14,6 @@
         <converters:ArrayToDataViewConverter x:Key="ArrayToDataViewConverter" />
     </UserControl.Resources>
     <Grid>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ItemsSource, Converter={StaticResource ArrayToDataViewConverter}}" />
+        <DataGrid ItemsSource="{Binding ItemsSource, Converter={StaticResource ArrayToDataViewConverter}}" />
     </Grid>
 </UserControl>

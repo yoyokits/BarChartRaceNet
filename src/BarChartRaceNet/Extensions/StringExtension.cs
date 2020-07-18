@@ -7,6 +7,12 @@
     /// </summary>
     public static class StringExtension
     {
+        #region Fields
+
+        public static string[] ForbiddenCharacters = { "(", ")", "[", "]", "\\", "/", "." };
+
+        #endregion Fields
+
         #region Properties
 
         /// <summary>
@@ -27,6 +33,21 @@
         {
             var name = propertyName.Replace("Property", string.Empty);
             return name;
+        }
+
+        /// <summary>
+        /// The RemoveForbiddenCharacters.
+        /// </summary>
+        /// <param name="text">The text<see cref="string"/>.</param>
+        /// <returns>The <see cref="string"/>.</returns>
+        public static string RemoveForbiddenCharacters(this string text)
+        {
+            for (var i = 0; i < ForbiddenCharacters.Length; i++)
+            {
+                text = text.Replace(ForbiddenCharacters[i], "-");
+            }
+
+            return text;
         }
 
         /// <summary>

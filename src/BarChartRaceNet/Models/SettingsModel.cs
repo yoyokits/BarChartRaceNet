@@ -10,6 +10,16 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the InitialDirectory.
+        /// </summary>
+        public string InitialDirectory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the LastOpenedCsvFile.
+        /// </summary>
+        public string LastOpenedCsvFile { get; set; }
+
+        /// <summary>
         /// Gets or sets the WindowHeight.
         /// </summary>
         public double WindowHeight { get; set; } = 1080;

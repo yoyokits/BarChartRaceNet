@@ -1,8 +1,10 @@
 ﻿namespace BarChartRaceNet.Converters
 {
+    using BarChartRaceNet.Extensions;
     using System;
     using System.Data;
     using System.Globalization;
+    using System.Linq;
     using System.Windows.Data;
 
     /// <summary>
@@ -22,35 +24,28 @@
         /// <returns>The <see cref="object"/>.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var array = value as string[,];
-            if (array == null) return null;
+            if (!(value is string[][] array) || array.Length < 2 || !array.First().Any())
+            {
+                return null;
+            }
 
-            var rows = array.GetLength(0);
-            if (rows == 0) return null;
-
-            var columns = array.GetLength(1);
-            if (columns == 0) return null;
-
-            var t = new DataTable();
+            var dataTable = new DataTable();
+            var firstArray = array.First();
 
             // Add columns with name "0", "1", "2", ...
-            for (var c = 0; c < columns; c++)
+            foreach (var header in firstArray)
             {
-                t.Columns.Add(new DataColumn(c.ToString()));
+                var filteredHeader = header.RemoveForbiddenCharacters();
+                dataTable.Columns.Add(new DataColumn(filteredHeader, typeof(string)));
             }
 
             // Add data to DataTable
-            for (var r = 0; r < rows; r++)
+            for (var row = 1; row < array.Length; row++)
             {
-                var newRow = t.NewRow();
-                for (var c = 0; c < columns; c++)
-                {
-                    newRow[c] = array[r, c];
-                }
-                t.Rows.Add(newRow);
+                dataTable.Rows.Add(array[row]);
             }
 
-            return t.DefaultView;
+            return dataTable.DefaultView;
         }
 
         /// <summary>
