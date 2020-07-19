@@ -4,6 +4,7 @@
     using BarChartRaceNet.Test.TestHelpers;
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq;
 
     /// <summary>
     /// Defines the <see cref="CsvFileHelperTest" />.
@@ -21,7 +22,8 @@
         {
             var records = CsvFileHelper.Load(TestData.CountryTestCsv);
             records.Should().NotBeNull();
-            records.Length.Should().Be(4);
+            records.Length.Should().Be(7);
+            records.First().Length.Should().Be(5);
         }
 
         #endregion Methods

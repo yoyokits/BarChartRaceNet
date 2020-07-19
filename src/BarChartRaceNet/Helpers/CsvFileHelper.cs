@@ -25,6 +25,15 @@
             Delimiter = ","
         };
 
+        /// <summary>
+        /// Gets the CsvConfiguration.
+        /// </summary>
+        private static CsvConfiguration CsvConfigurationNoHeader { get; } = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = false,
+            Delimiter = ","
+        };
+
         #endregion Properties
 
         #region Methods
@@ -43,11 +52,26 @@
 
             try
             {
+                string[][] array2DString = null;
+                using (var reader = new StreamReader(csvFilePath))
+                using (var csv = new CsvReader(reader, CsvConfigurationNoHeader))
+                {
+                    var records = csv.GetRecords<dynamic>();
+                    array2DString = ConvertToList(records.ToList());
+                }
+
                 using (var reader = new StreamReader(csvFilePath))
                 using (var csv = new CsvReader(reader, CsvConfiguration))
                 {
                     var records = csv.GetRecords<dynamic>();
-                    return ConvertToList(records.ToList());
+                    var array2DCorrectHeader = ConvertToList(records.ToList());
+                    var headerRecord = array2DCorrectHeader.First();
+                    for (var i = 0; i < headerRecord.Length; i++)
+                    {
+                        array2DString[0][i] = headerRecord[i];
+                    }
+
+                    return array2DString;
                 }
             }
             catch (Exception e)
