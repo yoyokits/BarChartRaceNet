@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets the About.
         /// </summary>
-        public static Geometry About { get; } = Geometry.Parse("M1,10L3,10 3,32 1,32z M2,0C3.1,0 4,0.9 4,2 4,3.1 3.1,4 2,4 0.9,4 -1.1368684E-13,3.1 0,2 -1.1368684E-13,0. 0.9,0 2,0z");
+        public static Geometry About { get; } = Geometry.Parse("M1,10L3,10 3,32 1,32z M2,0C3.1,0 4,0.9 4,2 4,3.1 3.1,4 2,4 0.9,4 0,3.1 0,2 0,0. 0.9,0 2,0z");
 
         /// <summary>
         /// Gets the ExportChart.
@@ -23,6 +23,16 @@
         /// Gets the Load.
         /// </summary>
         public static Geometry Load { get; } = Geometry.Parse("M0,0.4L10.1,0.4 10.1,3 17.9,3 17.6,3.2C16.1,4,15,5,14.3,6.1L0,6.1 0,3.5 0,3z M26.3,0L32,5.7 26.3,10.7 26.3,8C26.3,8,19.1,6,15.5,8.9L15.5,9 25.2,9 25.2,20.5 0,20.5 0,9 14.4,9 14.4,8.9C15.2,6.5,17.8,2.7,26.3,2.7z");
+
+        /// <summary>
+        /// Gets the Pause.
+        /// </summary>
+        public static Geometry Pause { get; } = Geometry.Parse("M17.9,0L29.1,0 29.1,32 17.9,32z M0,0L11.2,0 11.2,32 0,32z");
+
+        /// <summary>
+        /// Gets the Play.
+        /// </summary>
+        public static Geometry Play { get; } = Geometry.Parse("M0,0L15.8,8 31.65,16 15.8,24 0,32 0,16z");
 
         #endregion Properties
     }

@@ -1,7 +1,5 @@
 ﻿namespace BarChartRaceNet.Models
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Defines the <see cref="BarValuesModel" />.
     /// </summary>
@@ -10,38 +8,38 @@
         #region Properties
 
         /// <summary>
-        /// Gets the InterpolatedRanks.
-        /// </summary>
-        public IList<double> InterpolatedRanks { get; } = new List<double>();
-
-        /// <summary>
         /// Gets or sets the Name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets the Ranks.
+        /// Gets or sets the Ranks.
         /// </summary>
-        public IList<double> Ranks { get; } = new List<double>();
+        public double[] Ranks { get; set; }
 
         /// <summary>
-        /// Gets the Values.
+        /// Gets or sets the RanksInterpolated.
         /// </summary>
-        public IList<double> Values { get; } = new List<double>();
+        public double[] RanksInterpolated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RankSteps.
+        /// </summary>
+        public double[] RankSteps { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Values.
+        /// </summary>
+        public double[] Values { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ValuesInterpolated.
+        /// </summary>
+        public double[] ValuesInterpolated { get; set; }
 
         #endregion Properties
 
         #region Methods
-
-        /// <summary>
-        /// The Clear.
-        /// </summary>
-        public void Clear()
-        {
-            this.InterpolatedRanks.Clear();
-            this.Ranks.Clear();
-            this.Values.Clear();
-        }
 
         /// <summary>
         /// The ToString.
@@ -49,7 +47,7 @@
         /// <returns>The <see cref="string"/>.</returns>
         public override string ToString()
         {
-            var message = $"BarValuesModel {Name}:Count:{this.Values.Count}";
+            var message = $"BarValuesModel {Name}:Count:{this.Values.Length}";
             return message;
         }
 

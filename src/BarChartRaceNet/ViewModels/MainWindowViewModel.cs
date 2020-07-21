@@ -22,12 +22,13 @@
         /// </summary>
         public MainWindowViewModel()
         {
-            this.BarChartViewModel = new BarChartViewModel(this.GlobalData);
+            this.ChartEditorViewModel = new ChartEditorViewModel(this.GlobalData);
             this.DatasetViewModel = new DatasetViewModel(this.GlobalData);
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
                 new ExportChartButton { ExportChartAction = this.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
+                new PlayButton(),
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);
@@ -39,9 +40,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the BarChartViewModel.
+        /// Gets the ChartEditorViewModel.
         /// </summary>
-        public BarChartViewModel BarChartViewModel { get; }
+        public ChartEditorViewModel ChartEditorViewModel { get; }
 
         /// <summary>
         /// Gets the ClosingCommand.

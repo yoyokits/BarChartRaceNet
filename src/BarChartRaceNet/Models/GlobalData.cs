@@ -1,16 +1,25 @@
 ﻿namespace BarChartRaceNet.Models
 {
+    using BarChartRaceNet.Common;
+    using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Helpers;
     using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Defines the <see cref="GlobalData" />.
     /// </summary>
-    public class GlobalData
+    public class GlobalData : NotifyPropertyChanged
     {
+        #region Fields
+
+        private IList<BarValuesModel> _barValuesModels;
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -28,6 +37,11 @@
         #endregion Constructors
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the BarValuesModels.
+        /// </summary>
+        public IList<BarValuesModel> BarValuesModels { get => _barValuesModels; set => this.Set(this.PropertyChangedHandler, ref _barValuesModels, value); }
 
         /// <summary>
         /// Gets or sets the MainWindow.

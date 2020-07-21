@@ -33,5 +33,27 @@
         public static RangeDouble Empty { get; } = new RangeDouble(0, 0);
 
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// The Range.
+        /// </summary>
+        /// <param name="from">The from<see cref="int"/>.</param>
+        /// <param name="to">The to<see cref="int"/>.</param>
+        /// <returns>The <see cref="double[]"/>.</returns>
+        public static double[] Range(int from, int to)
+        {
+            var range = new double[to - from + 1];
+            var i = 0;
+            for (var value = from; value <= to; value++)
+            {
+                range[i++] = value;
+            }
+
+            return range;
+        }
+
+        #endregion Methods
     }
 }

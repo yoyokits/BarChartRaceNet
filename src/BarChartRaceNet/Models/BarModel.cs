@@ -21,6 +21,8 @@
 
         private double _index;
 
+        private bool _isSuspended;
+
         private GridLength _lowerGridLength;
 
         private string _name;
@@ -29,7 +31,7 @@
 
         private double _value;
 
-        private string _valueText;
+        private string _valueText = "0";
 
         private RangeDouble _visibleRange;
 
@@ -83,8 +85,12 @@
         public double Index { get => _index; set => this.Set(this.PropertyChangedHandler, ref _index, value); }
 
         /// <summary>
-        /// Gets the LowerGridLength
-        /// Gets or sets the LowerGridLength....
+        /// Gets or sets a value indicating whether IsSuspended.
+        /// </summary>
+        public bool IsSuspended { get => _isSuspended; set => this.Set(this.PropertyChangedHandler, ref _isSuspended, value); }
+
+        /// <summary>
+        /// Gets the LowerGridLength.
         /// </summary>
         public GridLength LowerGridLength { get => _lowerGridLength; private set => this.Set(this.PropertyChangedHandler, ref _lowerGridLength, value); }
 
@@ -144,7 +150,7 @@
         /// </summary>
         private void CalculateGridLength()
         {
-            if (this.VisibleRange.IsEmpty())
+            if (this.VisibleRange.IsEmpty() || this.IsSuspended)
             {
                 return;
             }
@@ -176,6 +182,14 @@
 
                 case nameof(this.VisibleRange):
                     this.CalculateGridLength();
+                    break;
+
+                case nameof(this.IsSuspended):
+                    if (!this.IsSuspended)
+                    {
+                        this.CalculateGridLength();
+                    }
+
                     break;
 
                 default:

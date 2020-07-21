@@ -1,11 +1,9 @@
 ﻿namespace BarChartRaceNet.Test.Helpers
 {
     using BarChartRaceNet.Helpers;
-    using BarChartRaceNet.Models;
     using BarChartRaceNet.Test.TestHelpers;
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -23,15 +21,13 @@
         public void DatasetToBarValuesModels()
         {
             var array2D = CsvFileHelper.Load(TestData.CountryTestCsv);
-            var models = new List<BarValuesModel>();
-            array2D.DatasetToBarValuesModels(models);
+            var models = array2D.DatasetToBarValuesModels();
             models.Should().NotBeNull();
             models.Count.Should().Be(4);
             foreach (var model in models)
             {
-                model.InterpolatedRanks.Count.Should().Be(6);
-                model.Ranks.Count.Should().Be(6);
-                model.Values.Count.Should().Be(6);
+                model.Ranks.Length.Should().Be(6);
+                model.Values.Length.Should().Be(6);
             }
         }
 

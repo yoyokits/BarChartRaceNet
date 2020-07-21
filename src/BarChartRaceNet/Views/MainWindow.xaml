@@ -55,7 +55,7 @@
             </ItemsControl>
         </ToolBar>
         <ScrollViewer Grid.Row="1">
-            <views:BarChartView Margin="8" DataContext="{Binding BarChartViewModel}" />
+            <views:ChartEditorView Margin="8" DataContext="{Binding ChartEditorViewModel}" />
         </ScrollViewer>
         <views:DatasetView Grid.Row="2" DataContext="{Binding DatasetViewModel}" />
     </Grid>

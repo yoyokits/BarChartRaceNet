@@ -70,7 +70,12 @@
                     {
                         this.GlobalData.SettingsModel.LastOpenedCsvFile = this.CsvFilePath;
                         this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
-                        this.ItemsSource = CsvFileHelper.Load(this.CsvFilePath);
+                        var stringArray = CsvFileHelper.Load(this.CsvFilePath);
+                        if (stringArray != null)
+                        {
+                            this.GlobalData.BarValuesModels = stringArray.DatasetToBarValuesModels();
+                        }
+                        this.ItemsSource = stringArray;
                     }
                     else
                     {

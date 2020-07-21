@@ -2,7 +2,6 @@
 {
     using BarChartRaceNet.Common;
     using CsvHelper;
-    using CsvHelper.Configuration;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -14,28 +13,6 @@
     /// </summary>
     public static class CsvFileHelper
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the CsvConfiguration.
-        /// </summary>
-        private static CsvConfiguration CsvConfiguration { get; } = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = true,
-            Delimiter = ","
-        };
-
-        /// <summary>
-        /// Gets the CsvConfiguration.
-        /// </summary>
-        private static CsvConfiguration CsvConfigurationNoHeader { get; } = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-            Delimiter = ","
-        };
-
-        #endregion Properties
-
         #region Methods
 
         /// <summary>
@@ -54,25 +31,13 @@
             {
                 string[][] array2DString = null;
                 using (var reader = new StreamReader(csvFilePath))
-                using (var csv = new CsvReader(reader, CsvConfigurationNoHeader))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     var records = csv.GetRecords<dynamic>();
                     array2DString = ConvertToList(records.ToList());
                 }
 
-                using (var reader = new StreamReader(csvFilePath))
-                using (var csv = new CsvReader(reader, CsvConfiguration))
-                {
-                    var records = csv.GetRecords<dynamic>();
-                    var array2DCorrectHeader = ConvertToList(records.ToList());
-                    var headerRecord = array2DCorrectHeader.First();
-                    for (var i = 0; i < headerRecord.Length; i++)
-                    {
-                        array2DString[0][i] = headerRecord[i];
-                    }
-
-                    return array2DString;
-                }
+                return array2DString;
             }
             catch (Exception e)
             {
@@ -89,22 +54,32 @@
         /// <returns>The <see cref="string[][]"/>.</returns>
         internal static string[][] ConvertToList(IList<dynamic> records)
         {
-            var list2D = new List<string[]>();
+            var stringList2D = new List<string[]>();
+            var headers = new List<string>();
             for (var i = 0; i < records.Count; i++)
             {
-                dynamic record = (dynamic)records[i];
+                var record = (dynamic)records[i];
                 var list = new List<string>();
                 var recordDict = record as IDictionary<string, object>;
                 foreach (var item in recordDict)
                 {
-                    var row = i == 0 ? item.Key : item.Value.ToString();
-                    list.Add(row);
+                    if (i == 0)
+                    {
+                        headers.Add(item.Key);
+                    }
+
+                    list.Add(item.Value.ToString());
                 }
 
-                list2D.Add(list.ToArray());
+                if (i == 0)
+                {
+                    stringList2D.Add(headers.ToArray());
+                }
+
+                stringList2D.Add(list.ToArray());
             }
 
-            return list2D.ToArray();
+            return stringList2D.ToArray();
         }
 
         #endregion Methods
