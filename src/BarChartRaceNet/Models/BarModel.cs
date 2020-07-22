@@ -13,6 +13,8 @@
     {
         #region Fields
 
+        private double _barOpacity = 1.0;
+
         private SolidColorBrush _brush;
 
         private Color _color;
@@ -20,6 +22,8 @@
         private string _icon;
 
         private double _index;
+
+        private double _indexOffset;
 
         private bool _isSuspended;
 
@@ -53,6 +57,16 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the BarContainerHeight.
+        /// </summary>
+        public double BarContainerHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the BarOpacity.
+        /// </summary>
+        public double BarOpacity { get => _barOpacity; set => this.Set(this.PropertyChangedHandler, ref _barOpacity, value); }
+
+        /// <summary>
         /// Gets or sets the Brush.
         /// </summary>
         public SolidColorBrush Brush { get => _brush; set => this.Set(this.PropertyChangedHandler, ref _brush, value); }
@@ -83,6 +97,11 @@
         /// Gets or sets the Index.
         /// </summary>
         public double Index { get => _index; set => this.Set(this.PropertyChangedHandler, ref _index, value); }
+
+        /// <summary>
+        /// Gets or sets the IndexOffset.
+        /// </summary>
+        public double IndexOffset { get => _indexOffset; set => this.Set(this.PropertyChangedHandler, ref _indexOffset, value); }
 
         /// <summary>
         /// Gets or sets a value indicating whether IsSuspended.

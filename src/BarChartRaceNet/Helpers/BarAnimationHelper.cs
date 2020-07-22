@@ -1,6 +1,7 @@
 ﻿namespace BarChartRaceNet.Helpers
 {
     using BarChartRaceNet.Common;
+    using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Models;
     using BarChartRaceNet.Tools;
     using System;
@@ -119,7 +120,7 @@
             }
 
             var n = array.Length * resolution;
-            var extendedArray = new double[array.Length * resolution];
+            var extendedArray = new double[n];
             var index = 0;
             for (var i = 0; i < array.Length; i++)
             {
@@ -187,6 +188,10 @@
                 var barModel = barModels[i];
                 var valuesModel = barValuesModels[i];
                 barModel.IsSuspended = true;
+                barModel.Index = valuesModel.RankSteps[positionIndex];
+                var offset = (barModel.Index - valuesModel.RanksInterpolated[positionIndex]);
+                barModel.BarOpacity = 1 - (Math.Sin(offset.Abs() * 0.7 * Math.PI) * 0.7);
+                barModel.IndexOffset = offset * barModel.BarContainerHeight;
                 barModel.Value = valuesModel.ValuesInterpolated[positionIndex];
                 if (min > barModel.Value)
                 {

@@ -11,6 +11,32 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <views:BarChartView DataContext="{Binding BarChartViewModel}" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <views:BarChartView Grid.Row="0" DataContext="{Binding BarChartViewModel}" />
+        <Grid Grid.Row="1" DataContext="{Binding BarAnimationModel}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Margin="0,0,4,0"
+                Text="0" />
+            <Slider
+                Grid.Column="1"
+                Margin="0,0,4,0"
+                Maximum="{Binding MaxPositionIndex}"
+                Minimum="0"
+                Value="{Binding PositionIndex}" />
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <TextBlock Margin="0,0,4,0" Text="{Binding MaxPositionIndex}" />
+                <TextBlock Margin="0,0,4,0" Text="Position:" />
+                <TextBlock Margin="0,0,4,0" Text="{Binding PositionIndex}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

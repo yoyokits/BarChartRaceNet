@@ -13,13 +13,11 @@
     {
         #region Fields
 
-        private IList<BarValuesModel> _barValuesInterpolatedModels;
-
         private IList<BarValuesModel> _barValuesModels;
 
         private double _durationPerSampleInSeconds = 1;
 
-        private double _framePerSecond = 24;
+        private double _framePerSecond = 25;
 
         private double _height = 800;
 

@@ -28,7 +28,6 @@
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
                 new ExportChartButton { ExportChartAction = this.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
-                new PlayButton(),
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);

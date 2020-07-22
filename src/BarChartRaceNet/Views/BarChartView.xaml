@@ -2,7 +2,9 @@
     x:Class="BarChartRaceNet.Views.BarChartView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:componentmodel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:BarChartRaceNet.Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:BarChartRaceNet.ViewModels"
     x:Name="BarChartViewRoot"
@@ -10,6 +12,17 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <CollectionViewSource
+            x:Key="BarModels"
+            IsLiveSortingRequested="True"
+            Source="{Binding BarModels}">
+            <CollectionViewSource.SortDescriptions>
+                <componentmodel:SortDescription Direction="Descending" PropertyName="Index" />
+                <componentmodel:SortDescription PropertyName="Name" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -56,7 +69,10 @@
         </ItemsControl>
         <!--  Chart  -->
         <Grid Grid.Row="2" Margin="0,4,200,0">
-            <ItemsControl Grid.Column="0" ItemsSource="{Binding BarModels}">
+            <ItemsControl
+                Grid.Column="0"
+                Grid.IsSharedSizeScope="True"
+                ItemsSource="{Binding Source={StaticResource BarModels}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />
@@ -64,38 +80,55 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="BarNameAreaWidth" />
-                                <ColumnDefinition SharedSizeGroup="BarChartAreaWidth" />
-                            </Grid.ColumnDefinitions>
-                            <!--  Bar Chart Name Label  -->
-                            <Grid Grid.Column="0">
-                                <TextBlock
-                                    Margin="8,0,8,0"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Name}" />
-                            </Grid>
-                            <!--  Bar Chart Data  -->
-                            <Grid Grid.Column="1" Margin="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarMargin}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding LowerGridLength}" />
-                                    <ColumnDefinition Width="{Binding UpperGridLength}" />
-                                </Grid.ColumnDefinitions>
+                        <Grid
+                            x:Name="BarGridContainer"
+                            Height="{Binding ElementName=BarGrid, Path=ActualHeight, Mode=OneWay}"
+                            extensions:ObserveSizeExtension.Height="{Binding BarContainerHeight, Mode=OneWayToSource}"
+                            extensions:ObserveSizeExtension.IsObserved="True">
+                            <Canvas>
                                 <Grid
-                                    Grid.Column="0"
-                                    Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarWidth}"
-                                    Margin="0,4,0,4">
-                                    <Rectangle Fill="{Binding Brush}" />
+                                    x:Name="BarGrid"
+                                    Canvas.Top="{Binding IndexOffset}"
+                                    Width="{Binding ElementName=BarGridContainer, Path=ActualWidth, Mode=OneWay}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="BarNameAreaWidth" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <!--  Bar Chart Name Label  -->
+                                    <Grid Grid.Column="0">
+                                        <TextBlock
+                                            Margin="8,0,8,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Name}" />
+                                    </Grid>
+                                    <!--  Bar Chart Data  -->
+                                    <Grid Grid.Column="1" Margin="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarMargin}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding LowerGridLength}" />
+                                            <ColumnDefinition Width="{Binding UpperGridLength}" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid
+                                            Grid.Column="0"
+                                            Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarWidth}"
+                                            Margin="0,4,0,4">
+                                            <Rectangle Fill="{Binding Brush}" Opacity="{Binding BarOpacity}" />
+                                            <TextBlock
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Index}" />
+                                        </Grid>
+                                        <Canvas Grid.Column="1" Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarWidth}">
+                                            <Grid Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarWidth}">
+                                                <TextBlock
+                                                    Margin="4,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ValueText}" />
+                                            </Grid>
+                                        </Canvas>
+                                    </Grid>
                                 </Grid>
-                                <Grid Grid.Column="1">
-                                    <TextBlock
-                                        Margin="4,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding ValueText}" />
-                                </Grid>
-                            </Grid>
+                            </Canvas>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
