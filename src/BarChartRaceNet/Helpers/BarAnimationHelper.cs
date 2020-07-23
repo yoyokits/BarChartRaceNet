@@ -34,12 +34,15 @@
                 var valuesModel = new BarValuesModel { Name = dataset[0][column + 1] };
                 valuesModel.Name = dataset[0][column + 1];
                 valuesModel.Ranks = new double[rowCount];
+                valuesModel.Times = new string[rowCount];
                 valuesModel.Values = new double[rowCount];
                 models.Add(valuesModel);
                 for (var row = 0; row < rowCount; row++)
                 {
                     var cellValue = doubleDataSet[row][column];
                     valuesModel.Values[row] = cellValue;
+                    var time = dataset[row + 1][0];
+                    valuesModel.Times[row] = time;
                 }
             }
 
@@ -111,7 +114,7 @@
         /// <param name="array">The array<see cref="double[]"/>.</param>
         /// <param name="resolution">The resolution<see cref="int"/>.</param>
         /// <returns>The <see cref="double[]"/>.</returns>
-        public static double[] ExtendArray(this double[] array, int resolution)
+        public static T[] ExtendArray<T>(this T[] array, int resolution)
         {
             if (array == null || !array.Any() || resolution < 2)
             {
@@ -120,7 +123,7 @@
             }
 
             var n = array.Length * resolution;
-            var extendedArray = new double[n];
+            var extendedArray = new T[n];
             var index = 0;
             for (var i = 0; i < array.Length; i++)
             {
@@ -148,6 +151,7 @@
                 var ranksSpline = new NaturalSpline(xs, valuesModel.Ranks, resolution);
                 valuesModel.RanksInterpolated = ranksSpline.interpolatedYs;
                 valuesModel.RankSteps = valuesModel.Ranks.ExtendArray(resolution);
+                valuesModel.Times = valuesModel.Times.ExtendArray(resolution);
                 valuesModel.ValuesInterpolated = valuesSpline.interpolatedYs;
             }
         }

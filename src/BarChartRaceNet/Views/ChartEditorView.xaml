@@ -2,6 +2,7 @@
     x:Class="BarChartRaceNet.Views.ChartEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:BarChartRaceNet.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,6 +18,7 @@
             <Style TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
+            <converters:NotEmptyStringToVisibilityConverter x:Key="NotEmptyStringToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -54,16 +56,24 @@
                 </Grid>
             </ScrollViewer>
             <ScrollViewer Grid.Column="1" MinWidth="400">
-                <StackPanel>
+                <ScrollViewer.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="MaxWidth" Value="260" />
+                    </Style>
+                    <Style TargetType="mah:NumericUpDown">
+                        <Setter Property="MaxWidth" Value="260" />
+                    </Style>
+                </ScrollViewer.Resources>
+                <StackPanel Grid.IsSharedSizeScope="True">
                     <GroupBox
                         Margin="4,2"
                         DataContext="{Binding BarChartViewModel}"
                         Header="Appearance">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PropertyName" />
                                 <ColumnDefinition Width="16" />
-                                <ColumnDefinition />
+                                <ColumnDefinition MaxWidth="260" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -180,9 +190,9 @@
                         Header="Chart Data">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PropertyName" />
                                 <ColumnDefinition Width="16" />
-                                <ColumnDefinition />
+                                <ColumnDefinition MaxWidth="260" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -213,6 +223,45 @@
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
                                 Text="{Binding SubTitle, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox
+                        Margin="4,2"
+                        DataContext="{Binding BarChartViewModel.SelectedBarModel}"
+                        Header="Selected Bar Properties">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PropertyName" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition MaxWidth="260" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <!--  Name  -->
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Name" />
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                            <!--  Icon  -->
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Icon (Url Image)" />
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="{Binding Icon, UpdateSourceTrigger=PropertyChanged, Delay=1000}" />
                         </Grid>
                     </GroupBox>
                 </StackPanel>

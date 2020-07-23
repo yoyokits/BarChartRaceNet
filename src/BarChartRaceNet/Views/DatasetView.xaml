@@ -14,6 +14,12 @@
         <converters:ArrayToDataViewConverter x:Key="ArrayToDataViewConverter" />
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding ItemsSource, Converter={StaticResource ArrayToDataViewConverter}}" />
+        <DataGrid ItemsSource="{Binding ItemsSource, Converter={StaticResource ArrayToDataViewConverter}}">
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="DataGrid">
+                    <Setter Property="AlternatingRowBackground" Value="{StaticResource MahApps.Brushes.Accent4}" />
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
     </Grid>
 </UserControl>

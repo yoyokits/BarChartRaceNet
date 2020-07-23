@@ -64,6 +64,7 @@
 
                 case nameof(this.BarAnimationModel.PositionIndex):
                     this.BarChartViewModel.BarModels.UpdateBarModelsData(this.BarAnimationModel.BarValuesModels, this.BarAnimationModel.PositionIndex);
+                    this.BarChartViewModel.Time = this.BarAnimationModel.BarValuesModels.First().Times[this.BarAnimationModel.PositionIndex];
                     break;
 
                 default:

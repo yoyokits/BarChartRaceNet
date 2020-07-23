@@ -136,7 +136,7 @@
                     return;
                 }
 
-                this.ValueText = $"{this.Value:0.##}";
+                this.ValueText = $"{this.Value:#}";
             }
         }
 

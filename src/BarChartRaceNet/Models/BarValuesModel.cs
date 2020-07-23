@@ -28,6 +28,11 @@
         public double[] RankSteps { get; set; }
 
         /// <summary>
+        /// Gets or sets the Times.
+        /// </summary>
+        public string[] Times { get; set; }
+
+        /// <summary>
         /// Gets or sets the Values.
         /// </summary>
         public double[] Values { get; set; }

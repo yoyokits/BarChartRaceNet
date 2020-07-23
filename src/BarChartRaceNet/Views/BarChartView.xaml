@@ -119,6 +119,7 @@
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             FontSize="{Binding Source={StaticResource BarChartViewModelProxy}, Path=DataContext.BarNameFontSize}"
+                                            FontWeight="Bold"
                                             Text="{Binding Name}" />
                                     </Grid>
                                     <!--  Bar Chart Data  -->
@@ -143,11 +144,19 @@
                                         </Grid>
                                         <Canvas Grid.Column="1" Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarThickness}">
                                             <Grid Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarThickness}">
-                                                <TextBlock
-                                                    Margin="8,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="{Binding Source={StaticResource BarChartViewModelProxy}, Path=DataContext.BarNameFontSize}"
-                                                    Text="{Binding ValueText}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image
+                                                        Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarThickness}"
+                                                        Margin="8,0,0,0"
+                                                        Opacity="{Binding BarOpacity}"
+                                                        Source="{Binding Icon, Converter={StaticResource StringToVisibilityConverter}}"
+                                                        Stretch="Uniform" />
+                                                    <TextBlock
+                                                        Margin="8,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="{Binding Source={StaticResource BarChartViewModelProxy}, Path=DataContext.BarNameFontSize}"
+                                                        Text="{Binding ValueText}" />
+                                                </StackPanel>
                                             </Grid>
                                         </Canvas>
                                     </Grid>
@@ -157,6 +166,30 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <StackPanel
+                Margin="12"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom">
+                <TextBlock
+                    FontSize="64"
+                    FontWeight="Bold"
+                    Text="{Binding Time}"
+                    TextAlignment="Right" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="40"
+                        FontWeight="SemiBold"
+                        Foreground="DimGray"
+                        Text="Total: "
+                        TextAlignment="Right" />
+                    <TextBlock
+                        FontSize="40"
+                        FontWeight="SemiBold"
+                        Foreground="DimGray"
+                        Text="{Binding Total, StringFormat={}{0:#,#}}"
+                        TextAlignment="Right" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

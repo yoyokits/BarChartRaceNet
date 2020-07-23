@@ -5,6 +5,8 @@
     using BarChartRaceNet.Models;
     using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -22,7 +24,7 @@
 
         private double _barNameFontSize = 18;
 
-        private double _barSpace = 10;
+        private double _barSpace;
 
         private double _barThickness = 64;
 
@@ -38,9 +40,13 @@
 
         private double _subTitleFontSize = 24;
 
+        private string _time = "2020";
+
         private string _title = "Cekli Bar Chart Race";
 
         private double _titleFontSize = 32;
+
+        private double _total;
 
         private double _width = 1200;
 
@@ -56,7 +62,9 @@
         {
             this.GlobalData = globalData;
             this.BarModels = new ObservableCollection<BarModel>();
+            this.BarModels.CollectionChanged += this.OnBarModels_CollectionChanged;
             this.SelectBarCommand = new RelayCommand(this.OnSelectBar, nameof(this.SelectBarCommand));
+            this.BarSpace = 10;
         }
 
         #endregion Constructors
@@ -147,6 +155,11 @@
         public double SubTitleFontSize { get => _subTitleFontSize; set => this.Set(this.PropertyChangedHandler, ref _subTitleFontSize, value); }
 
         /// <summary>
+        /// Gets or sets the Time.
+        /// </summary>
+        public string Time { get => _time; set => this.Set(this.PropertyChangedHandler, ref _time, value); }
+
+        /// <summary>
         /// Gets or sets the Title.
         /// </summary>
         public string Title { get => _title; set => this.Set(this.PropertyChangedHandler, ref _title, value); }
@@ -157,6 +170,11 @@
         public double TitleFontSize { get => _titleFontSize; set => this.Set(this.PropertyChangedHandler, ref _titleFontSize, value); }
 
         /// <summary>
+        /// Gets or sets the Total.
+        /// </summary>
+        public double Total { get => _total; set => this.Set(this.PropertyChangedHandler, ref _total, value); }
+
+        /// <summary>
         /// Gets or sets the Width.
         /// </summary>
         public double Width { get => _width; set => this.Set(this.PropertyChangedHandler, ref _width, value); }
@@ -164,6 +182,48 @@
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// The OnBarModels_CollectionChanged.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="NotifyCollectionChangedEventArgs"/>.</param>
+        private void OnBarModels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (INotifyPropertyChanged item in e.OldItems)
+                {
+                    item.PropertyChanged -= OnItem_PropertyChanged;
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (INotifyPropertyChanged item in e.NewItems)
+                {
+                    item.PropertyChanged += OnItem_PropertyChanged;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The OnItem_PropertyChanged.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="PropertyChangedEventArgs"/>.</param>
+        private void OnItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(BarModel.Value))
+            {
+                var total = 0.0;
+                foreach (var barModel in this.BarModels)
+                {
+                    total += barModel.Value;
+                }
+
+                this.Total = total;
+            }
+        }
 
         /// <summary>
         /// The OnSelectBar.
