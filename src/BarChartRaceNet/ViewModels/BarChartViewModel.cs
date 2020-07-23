@@ -3,8 +3,11 @@
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Models;
+    using System;
     using System.Collections.ObjectModel;
     using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
 
     /// <summary>
     /// Defines the <see cref="BarChartViewModel" />.
@@ -13,19 +16,33 @@
     {
         #region Fields
 
+        private Brush _background = new SolidColorBrush(Colors.White);
+
         private Thickness _barMargin;
 
-        private double _barSpace = 4;
+        private double _barNameFontSize = 18;
 
-        private double _barWidth = 30;
+        private double _barSpace = 10;
+
+        private double _barThickness = 64;
+
+        private double _height = 900;
 
         private RangeDouble _rangeX = new RangeDouble(0, 5);
 
         private RangeDouble _rangeY = new RangeDouble(0, 10);
 
-        private string _subTitle;
+        private BarModel _selectedBarModel;
+
+        private string _subTitle = "Chart sub title";
+
+        private double _subTitleFontSize = 24;
 
         private string _title = "Cekli Bar Chart Race";
+
+        private double _titleFontSize = 32;
+
+        private double _width = 1200;
 
         #endregion Fields
 
@@ -37,13 +54,19 @@
         /// <param name="globalData">The globalData<see cref="GlobalData"/>.</param>
         internal BarChartViewModel(GlobalData globalData)
         {
-            this.BarModels = new ObservableCollection<BarModel>();
             this.GlobalData = globalData;
+            this.BarModels = new ObservableCollection<BarModel>();
+            this.SelectBarCommand = new RelayCommand(this.OnSelectBar, nameof(this.SelectBarCommand));
         }
 
         #endregion Constructors
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the Background.
+        /// </summary>
+        public Brush Background { get => _background; set => this.Set(this.PropertyChangedHandler, ref _background, value); }
 
         /// <summary>
         /// Gets the BarMargin.
@@ -56,13 +79,19 @@
         public ObservableCollection<BarModel> BarModels { get; }
 
         /// <summary>
+        /// Gets or sets the BarNameFontSize.
+        /// </summary>
+        public double BarNameFontSize { get => _barNameFontSize; set => this.Set(this.PropertyChangedHandler, ref _barNameFontSize, value); }
+
+        /// <summary>
         /// Gets or sets the BarSpace.
         /// </summary>
         public double BarSpace
         {
-            get => _barSpace; set
+            get => _barSpace;
+            set
             {
-                if (!this.Set(this.PropertyChangedHandler, ref _barSpace, value, new RangeDouble(10, 10000)))
+                if (!this.Set(this.PropertyChangedHandler, ref _barSpace, value, new RangeDouble(2, 10000)))
                 {
                     return;
                 }
@@ -73,14 +102,19 @@
         }
 
         /// <summary>
-        /// Gets or sets the BarWidth.
+        /// Gets or sets the BarThickness.
         /// </summary>
-        public double BarWidth { get => _barWidth; set => this.Set(this.PropertyChangedHandler, ref _barWidth, value, new RangeDouble(10, 10000)); }
+        public double BarThickness { get => _barThickness; set => this.Set(this.PropertyChangedHandler, ref _barThickness, value, new RangeDouble(10, 10000)); }
 
         /// <summary>
         /// Gets the GlobalData.
         /// </summary>
         public GlobalData GlobalData { get; }
+
+        /// <summary>
+        /// Gets or sets the Height.
+        /// </summary>
+        public double Height { get => _height; set => this.Set(this.PropertyChangedHandler, ref _height, value); }
 
         /// <summary>
         /// Gets or sets the RangeX.
@@ -93,15 +127,55 @@
         public RangeDouble RangeY { get => _rangeY; set => this.Set(this.PropertyChangedHandler, ref _rangeY, value); }
 
         /// <summary>
+        /// Gets the SelectBarCommand.
+        /// </summary>
+        public ICommand SelectBarCommand { get; }
+
+        /// <summary>
+        /// Gets or sets the SelectedBarModel.
+        /// </summary>
+        public BarModel SelectedBarModel { get => _selectedBarModel; set => this.Set(this.PropertyChangedHandler, ref _selectedBarModel, value); }
+
+        /// <summary>
         /// Gets or sets the SubTitle.
         /// </summary>
         public string SubTitle { get => _subTitle; set => this.Set(this.PropertyChangedHandler, ref _subTitle, value); }
+
+        /// <summary>
+        /// Gets or sets the SubTitleFontSize.
+        /// </summary>
+        public double SubTitleFontSize { get => _subTitleFontSize; set => this.Set(this.PropertyChangedHandler, ref _subTitleFontSize, value); }
 
         /// <summary>
         /// Gets or sets the Title.
         /// </summary>
         public string Title { get => _title; set => this.Set(this.PropertyChangedHandler, ref _title, value); }
 
+        /// <summary>
+        /// Gets or sets the TitleFontSize.
+        /// </summary>
+        public double TitleFontSize { get => _titleFontSize; set => this.Set(this.PropertyChangedHandler, ref _titleFontSize, value); }
+
+        /// <summary>
+        /// Gets or sets the Width.
+        /// </summary>
+        public double Width { get => _width; set => this.Set(this.PropertyChangedHandler, ref _width, value); }
+
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// The OnSelectBar.
+        /// </summary>
+        /// <param name="obj">The obj<see cref="object"/>.</param>
+        private void OnSelectBar(object obj)
+        {
+            var (_, _, commandParameter) = (ValueTuple<object, EventArgs, object>)obj;
+            var barModel = commandParameter as BarModel;
+            this.SelectedBarModel = barModel;
+        }
+
+        #endregion Methods
     }
 }

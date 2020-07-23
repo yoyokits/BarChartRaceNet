@@ -194,6 +194,11 @@
                 BindingOperations.ClearBinding(this.Element, CommandParameterBinderProperty);
             }
 
+            if (commandParameter == null)
+            {
+                commandParameter = dataContext;
+            }
+
             var executeParameters = (sender, args, commandParameter);
             if (!string.IsNullOrEmpty(_commandName) && dataContext != null)
             {

@@ -3,6 +3,7 @@
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
+    using System.Linq;
 
     /// <summary>
     /// Defines the <see cref="ChartEditorViewModel" />.
@@ -57,6 +58,7 @@
             {
                 case nameof(this.BarAnimationModel.BarValuesModels):
                     this.BarChartViewModel.BarModels.UpdateBarModels(this.BarAnimationModel.BarValuesModels);
+                    this.BarChartViewModel.SelectedBarModel = this.BarChartViewModel.BarModels.First();
                     this.BarAnimationModel.PositionIndex = 0;
                     break;
 

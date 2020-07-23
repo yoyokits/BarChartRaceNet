@@ -54,9 +54,10 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ToolBar>
-        <ScrollViewer Grid.Row="1">
-            <views:ChartEditorView Margin="8" DataContext="{Binding ChartEditorViewModel}" />
-        </ScrollViewer>
+        <views:ChartEditorView
+            Grid.Row="1"
+            Margin="8"
+            DataContext="{Binding ChartEditorViewModel}" />
         <views:DatasetView Grid.Row="2" DataContext="{Binding DatasetViewModel}" />
     </Grid>
 </mah:MetroWindow>
