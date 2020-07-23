@@ -77,10 +77,12 @@
         /// </summary>
         public int PositionIndex
         {
-            get => _positionIndex; set
+            get => _positionIndex;
+            set
             {
                 if (_positionIndex == value || _positionIndex < 0 || _positionIndex > this.MaxPositionIndex)
                 {
+                    this.Warn($"Set {nameof(this.PositionIndex)} Error: {value} is outside range {0}-{this.MaxPositionIndex}");
                     return;
                 }
 

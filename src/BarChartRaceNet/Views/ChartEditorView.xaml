@@ -4,10 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:BarChartRaceNet.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:BarChartRaceNet.Extensions"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:BarChartRaceNet.ViewModels"
     xmlns:views="clr-namespace:BarChartRaceNet.Views"
+    x:Name="ChartEditorViewRoot"
     d:DataContext="{d:DesignInstance viewmodels:ChartEditorViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -26,12 +28,12 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!--  Bar Chart View  -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            <!--  Bar Chart View  -->
             <ScrollViewer
                 Grid.Column="0"
                 Background="Gainsboro"
@@ -52,7 +54,7 @@
                                 Color="Black" />
                         </Border.Effect>
                     </Border>
-                    <views:BarChartView />
+                    <views:BarChartView Loaded="{extensions:EventBinding Command={Binding ElementName=ChartEditorViewRoot, Path=DataContext.BarChartViewLoadedCommand}}" />
                 </Grid>
             </ScrollViewer>
             <ScrollViewer Grid.Column="1" MinWidth="400">
@@ -64,6 +66,7 @@
                         <Setter Property="MaxWidth" Value="260" />
                     </Style>
                 </ScrollViewer.Resources>
+                <!--  Chart Properties Editor  -->
                 <StackPanel Grid.IsSharedSizeScope="True">
                     <GroupBox
                         Margin="4,2"

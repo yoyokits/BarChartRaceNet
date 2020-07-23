@@ -27,7 +27,7 @@
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
-                new ExportChartButton { ExportChartAction = this.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
+                new ExportChartButton { ExportChartAction = this.ChartEditorViewModel.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);
@@ -95,14 +95,6 @@
             settings.WindowState = window.WindowState;
             SettingsHelper.Save(settings, window, this);
             this.Dispose();
-        }
-
-        /// <summary>
-        /// The OnExportChart.
-        /// </summary>
-        /// <param name="filePath">The filePath<see cref="string"/>.</param>
-        private void OnExportChart(string filePath)
-        {
         }
 
         /// <summary>
