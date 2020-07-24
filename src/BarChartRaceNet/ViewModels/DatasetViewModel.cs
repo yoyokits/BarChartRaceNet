@@ -6,6 +6,7 @@
     using BarChartRaceNet.Models;
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Defines the <see cref="DatasetViewModel" />.
@@ -56,6 +57,41 @@
         #region Methods
 
         /// <summary>
+        /// The LoadFile.
+        /// </summary>
+        private void LoadFile()
+        {
+            if (File.Exists(this.CsvFilePath))
+            {
+                this.GlobalData.SettingsModel.LastOpenedCsvFile = this.CsvFilePath;
+                this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
+                try
+                {
+                    var stringArray = CsvFileHelper.Load(this.CsvFilePath);
+                    if (stringArray != null)
+                    {
+                        var barValuesModels = stringArray.DatasetToBarValuesModels();
+                        barValuesModels.AdjustArray();
+                        UIThreadHelper.InvokeAsync(() => this.GlobalData.BarValuesModels = barValuesModels);
+                    }
+
+                    this.ItemsSource = stringArray;
+                }
+                catch (Exception exception)
+                {
+                    Logger.Info($"CsvFileHelper Exception: {exception.Message}");
+                    var fileName = Path.GetFileName(this.CsvFilePath);
+                    var message = $"Error opening {fileName}: {exception.Message}";
+                    this.GlobalData.ShowMessageAsync("Loading File Failed", message);
+                }
+            }
+            else
+            {
+                Logger.Error($"Error: Cannot load {this.CsvFilePath}, the file doesn't exist");
+            }
+        }
+
+        /// <summary>
         /// The OnPropertyChanged.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
@@ -65,34 +101,7 @@
             switch (e.PropertyName)
             {
                 case nameof(this.CsvFilePath):
-                    if (File.Exists(this.CsvFilePath))
-                    {
-                        this.GlobalData.SettingsModel.LastOpenedCsvFile = this.CsvFilePath;
-                        this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
-                        try
-                        {
-                            var stringArray = CsvFileHelper.Load(this.CsvFilePath);
-                            if (stringArray != null)
-                            {
-                                var barValuesModels = stringArray.DatasetToBarValuesModels();
-                                barValuesModels.AdjustArray();
-                                this.GlobalData.BarValuesModels = barValuesModels; ;
-                            }
-
-                            this.ItemsSource = stringArray;
-                        }
-                        catch (Exception exception)
-                        {
-                            Logger.Info($"CsvFileHelper Exception: {exception.Message}");
-                            var fileName = Path.GetFileName(this.CsvFilePath);
-                            var message = $"Error opening {fileName}: {exception.Message}";
-                            this.GlobalData.ShowMessageAsync("Loading File Failed", message);
-                        }
-                    }
-                    else
-                    {
-                        Logger.Error($"Error: Cannot load {this.CsvFilePath}, the file doesn't exist");
-                    }
+                    Task.Run(() => this.LoadFile());
                     break;
 
                 default:

@@ -1,5 +1,6 @@
 ﻿namespace BarChartRaceNet.Models
 {
+    using System.Collections.Generic;
     using System.Windows;
 
     /// <summary>
@@ -43,6 +44,11 @@
         /// Gets or sets the LastOpenedCsvFile.
         /// </summary>
         public string LastOpenedCsvFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the StringToImageUrlDictionary.
+        /// </summary>
+        public Dictionary<string, string> StringToImageUrlDictionary { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets or sets the Subtitle.

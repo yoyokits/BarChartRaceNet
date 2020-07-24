@@ -2,6 +2,7 @@
 {
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Extensions;
+    using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
     using System;
     using System.Collections.ObjectModel;
@@ -213,15 +214,31 @@
         /// <param name="e">The e<see cref="PropertyChangedEventArgs"/>.</param>
         private void OnItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(BarModel.Value))
+            var stringToImageUrlDict = this.GlobalData.SettingsModel.StringToImageUrlDictionary;
+            var barModel = sender as BarModel;
+            switch (e.PropertyName)
             {
-                var total = 0.0;
-                foreach (var barModel in this.BarModels)
-                {
-                    total += barModel.Value;
-                }
+                case nameof(BarModel.Name):
+                    var url = stringToImageUrlDict.GetImageUrl(barModel.Name);
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        barModel.Icon = url;
+                    }
 
-                this.Total = total;
+                    break;
+
+                case nameof(BarModel.Value):
+                    var total = 0.0;
+                    foreach (var model in this.BarModels)
+                    {
+                        total += model.Value;
+                    }
+
+                    this.Total = total;
+                    break;
+
+                default:
+                    break;
             }
         }
 

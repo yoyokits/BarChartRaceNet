@@ -1,7 +1,6 @@
 ﻿namespace BarChartRaceNet.Core
 {
     using BarChartRaceNet.Resources;
-    using Ookii.Dialogs.Wpf;
     using System;
 
     /// <summary>
@@ -26,12 +25,7 @@
         /// <summary>
         /// Gets or sets the ExportChartAction.
         /// </summary>
-        internal Action<string> ExportChartAction { get; set; }
-
-        /// <summary>
-        /// Gets or sets the InitialDirectory.
-        /// </summary>
-        internal string InitialDirectory { get; set; } = AppEnvironment.UserDocumentsFolder;
+        internal Action ExportChartAction { get; set; }
 
         #endregion Properties
 
@@ -48,15 +42,7 @@
                 return;
             }
 
-            var dialog = new VistaSaveFileDialog
-            {
-                InitialDirectory = this.InitialDirectory,
-                Filter = "MPEG4 files (*.mp4)|*.mp4"
-            };
-            if ((bool)dialog.ShowDialog())
-            {
-                this.ExportChartAction(dialog.FileName);
-            }
+            this.ExportChartAction();
         }
 
         #endregion Methods

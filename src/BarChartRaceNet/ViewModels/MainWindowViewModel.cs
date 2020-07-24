@@ -27,7 +27,7 @@
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
-                new ExportChartButton { ExportChartAction = this.ChartEditorViewModel.OnExportChart,  InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory },
+                new ExportChartButton { ExportChartAction = this.ChartEditorViewModel.OnExportChart },
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);

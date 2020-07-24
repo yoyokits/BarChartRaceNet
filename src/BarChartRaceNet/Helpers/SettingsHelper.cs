@@ -6,6 +6,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Windows;
@@ -39,6 +40,30 @@
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// The GetImageUrl.
+        /// </summary>
+        /// <param name="stringToImageUrlDict">The stringToImageUrlDict<see cref="IDictionary{string, string}"/>.</param>
+        /// <param name="text">The text<see cref="string"/>.</param>
+        /// <returns>The <see cref="string"/>.</returns>
+        public static string GetImageUrl(this IDictionary<string, string> stringToImageUrlDict, string text)
+        {
+            if (stringToImageUrlDict.TryGetValue(text, out var url))
+            {
+                return url;
+            }
+
+            foreach (var pair in stringToImageUrlDict)
+            {
+                if (pair.Key.Contains(text) || pair.Value.Contains(text))
+                {
+                    return pair.Value;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// The Load.

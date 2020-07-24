@@ -3,6 +3,7 @@
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
+    using Ookii.Dialogs.Wpf;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -27,6 +28,7 @@
             this.BarAnimationModel.PropertyChanged += this.OnBarAnimationModel_PropertyChanged;
             this.BarChartViewModel = new BarChartViewModel(this.GlobalData);
             this.BarChartViewLoadedCommand = new RelayCommand(this.OnBarChartViewLoaded, nameof(this.BarChartViewLoadedCommand));
+            this.InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory;
             this.Initialize();
         }
 
@@ -59,6 +61,11 @@
         /// </summary>
         public GlobalData GlobalData { get; }
 
+        /// <summary>
+        /// Gets or sets the InitialDirectory.
+        /// </summary>
+        internal string InitialDirectory { get; set; } = AppEnvironment.UserDocumentsFolder;
+
         #endregion Properties
 
         #region Methods
@@ -78,14 +85,35 @@
             settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
             settings.Title = this.BarChartViewModel.Title;
             settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
+            var dict = settings.StringToImageUrlDictionary;
+            foreach (var barModel in this.BarChartViewModel.BarModels)
+            {
+                var icon = barModel.Icon;
+                if (icon != null && icon.Contains("http"))
+                {
+                    dict[barModel.Name] = icon;
+                }
+            }
         }
 
         /// <summary>
         /// The OnExportChart.
         /// </summary>
-        /// <param name="filePath">The filePath<see cref="string"/>.</param>
-        internal void OnExportChart(string filePath)
+        internal void OnExportChart()
         {
+            var fileName = $"{this.BarChartViewModel.Title}.mp4";
+            var dialog = new VistaSaveFileDialog
+            {
+                InitialDirectory = this.InitialDirectory,
+                FileName = fileName,
+                Filter = "MPEG4 files (*.mp4)|*.mp4"
+            };
+            if (!(bool)dialog.ShowDialog())
+            {
+                return;
+            }
+
+            var filePath = dialog.FileName;
             if (!filePath.ToLower().Contains(".mp4"))
             {
                 filePath += ".mp4";
@@ -131,7 +159,7 @@
             switch (e.PropertyName)
             {
                 case nameof(this.BarAnimationModel.BarValuesModels):
-                    this.BarChartViewModel.BarModels.UpdateBarModels(this.BarAnimationModel.BarValuesModels);
+                    this.BarChartViewModel.BarModels.UpdateBarModels(this.BarAnimationModel.BarValuesModels, this.GlobalData.SettingsModel.StringToImageUrlDictionary);
                     this.BarChartViewModel.SelectedBarModel = this.BarChartViewModel.BarModels.First();
                     this.BarAnimationModel.PositionIndex = 0;
                     break;

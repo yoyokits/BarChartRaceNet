@@ -220,12 +220,18 @@
         /// </summary>
         /// <param name="barModels">The barModels<see cref="ObservableCollection{BarModel}"/>.</param>
         /// <param name="barValuesModels">The barValuesModels<see cref="IList{BarValuesModel}"/>.</param>
-        public static void UpdateBarModels(this ObservableCollection<BarModel> barModels, IList<BarValuesModel> barValuesModels)
+        public static void UpdateBarModels(this IList<BarModel> barModels, IList<BarValuesModel> barValuesModels, Dictionary<string, string> stringToImageUrlDictionary)
         {
             barModels.Clear();
             foreach (var valuesModel in barValuesModels)
             {
                 var barModel = new BarModel { Index = valuesModel.RankSteps[0], Name = valuesModel.Name, Value = valuesModel.Values[0] };
+                var icon = stringToImageUrlDictionary.GetImageUrl(barModel.Name);
+                if (!string.IsNullOrEmpty(icon))
+                {
+                    barModel.Icon = icon;
+                }
+
                 barModels.Add(barModel);
             }
 
@@ -238,7 +244,7 @@
         /// <param name="barModels">The barModels<see cref="ObservableCollection{BarModel}"/>.</param>
         /// <param name="barValuesModels">The barValuesModels<see cref="IList{BarValuesModel}"/>.</param>
         /// <param name="positionIndex">The positionIndex<see cref="int"/>.</param>
-        public static void UpdateBarModelsData(this ObservableCollection<BarModel> barModels, IList<BarValuesModel> barValuesModels, int positionIndex)
+        public static void UpdateBarModelsData(this IList<BarModel> barModels, IList<BarValuesModel> barValuesModels, int positionIndex)
         {
             if (barModels.Count != barValuesModels.Count)
             {
@@ -262,7 +268,7 @@
                 }
 
                 barModel.IndexOffset = indexOffset;
-                barModel.BarOpacity = 1 - (Math.Sin(offset.Abs() * 0.5 * Math.PI) * 0.7);
+                barModel.BarOpacity = 1 - (Math.Sin(offset.Abs() * Math.PI) * 0.7);
                 var value = valuesModel.ValuesInterpolated[positionIndex];
                 if (value < 0)
                 {

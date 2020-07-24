@@ -100,7 +100,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart width"
                                 Maximum="7680"
                                 Minimum="800"
-                                Value="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Height  -->
                             <TextBlock
                                 Grid.Row="1"
@@ -114,7 +114,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="4320"
                                 Minimum="600"
-                                Value="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Bar Space  -->
                             <TextBlock
                                 Grid.Row="2"
@@ -128,7 +128,7 @@
                                 mah:TextBoxHelper.Watermark="Type bar space"
                                 Maximum="100"
                                 Minimum="1"
-                                Value="{Binding BarSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding BarSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Bar Thickness  -->
                             <TextBlock
                                 Grid.Row="3"
@@ -142,7 +142,7 @@
                                 mah:TextBoxHelper.Watermark="Type bar space"
                                 Maximum="500"
                                 Minimum="10"
-                                Value="{Binding BarThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding BarThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Title Font Size  -->
                             <TextBlock
                                 Grid.Row="4"
@@ -156,7 +156,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="100"
                                 Minimum="6"
-                                Value="{Binding TitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding TitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Sub Title Font Size  -->
                             <TextBlock
                                 Grid.Row="5"
@@ -170,7 +170,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="100"
                                 Minimum="6"
-                                Value="{Binding SubtitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding SubtitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Bar Name Font Size  -->
                             <TextBlock
                                 Grid.Row="6"
@@ -184,7 +184,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="100"
                                 Minimum="6"
-                                Value="{Binding BarNameFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding BarNameFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                         </Grid>
                     </GroupBox>
                     <GroupBox
@@ -214,7 +214,7 @@
                                 Grid.Row="0"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
-                                Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Title, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
                             <!--  Subtitle  -->
                             <TextBlock
                                 Grid.Row="1"
@@ -225,7 +225,7 @@
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
-                                Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
                         </Grid>
                     </GroupBox>
                     <GroupBox
@@ -253,7 +253,7 @@
                                 Grid.Row="0"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
-                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Icon  -->
                             <TextBlock
                                 Grid.Row="1"
