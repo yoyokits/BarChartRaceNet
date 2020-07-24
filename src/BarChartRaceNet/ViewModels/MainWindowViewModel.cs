@@ -122,6 +122,7 @@
             window.Height = settings.WindowHeight;
             window.WindowState = settings.WindowState;
             this.GlobalData.MainWindow = window;
+            window.Dispatcher.BeginInvoke((Action)(() => this.DatasetViewModel.CsvFilePath = this.GlobalData.SettingsModel.LastOpenedCsvFile));
         }
 
         #endregion Methods

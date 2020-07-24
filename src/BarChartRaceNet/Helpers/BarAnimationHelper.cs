@@ -17,6 +17,20 @@
         #region Methods
 
         /// <summary>
+        /// The AdjustArray.
+        /// </summary>
+        /// <param name="barValuesModels">The barValuesModels<see cref="IEnumerable{BarValuesModel}"/>.</param>
+        public static void AdjustArray(this IEnumerable<BarValuesModel> barValuesModels)
+        {
+            foreach (var model in barValuesModels)
+            {
+                model.Ranks = model.Ranks.ExtendBorderArray();
+                model.Times = model.Times.ExtendBorderArray();
+                model.Values = model.Values.ExtendBorderArray();
+            }
+        }
+
+        /// <summary>
         /// The DatasetToBarValuesModels.
         /// </summary>
         /// <param name="dataset">The dataset<see cref="string[][]"/>.</param>
@@ -111,6 +125,7 @@
         /// <summary>
         /// The ExtendArray.
         /// </summary>
+        /// <typeparam name="T">.</typeparam>
         /// <param name="array">The array<see cref="double[]"/>.</param>
         /// <param name="resolution">The resolution<see cref="int"/>.</param>
         /// <returns>The <see cref="double[]"/>.</returns>
@@ -137,20 +152,64 @@
         }
 
         /// <summary>
+        /// The ExtendBorderArray.
+        /// </summary>
+        /// <typeparam name="T">.</typeparam>
+        /// <param name="array">The array<see cref="T[]"/>.</param>
+        /// <returns>The <see cref="T[]"/>.</returns>
+        public static T[] ExtendBorderArray<T>(this T[] array)
+        {
+            var extendedArray = new T[array.Length + 2];
+            for (var i = 0; i < array.Length; i++)
+            {
+                extendedArray[i + 1] = array[i];
+            }
+
+            extendedArray[0] = array.First();
+            extendedArray[extendedArray.Length - 1] = array.Last();
+            return extendedArray;
+        }
+
+        /// <summary>
+        /// The ExtendSingleLinearInterpolatedArray.
+        /// </summary>
+        /// <param name="array">The array<see cref="double[]"/>.</param>
+        /// <returns>The <see cref="double[]"/>.</returns>
+        public static double[] ExtendSingleLinearInterpolatedArray(this double[] array)
+        {
+            if (array.Length < 2)
+            {
+                throw new ArgumentException("Array length must be greater than 1");
+            }
+
+            var extendedArray = array.ExtendArray(2);
+            for (var i = 1; i < extendedArray.Length - 1; i += 2)
+            {
+                extendedArray[i] = (extendedArray[i - 1] + extendedArray[i + 1]) * 0.5;
+            }
+
+            return extendedArray;
+        }
+
+        /// <summary>
         /// The Interpolate.
         /// </summary>
         /// <param name="models">The models<see cref="IList{BarValuesModel}"/>.</param>
         /// <param name="resolution">The resolution<see cref="int"/>.</param>
-        /// <returns>The <see cref="IList{BarValuesModel}"/>.</returns>
         public static void Interpolate(this IList<BarValuesModel> models, int resolution)
         {
-            var xs = RangeDouble.Range(0, models.First().Values.Length - 1);
+            var xs = RangeDouble.Range(0, (models.First().Values.Length * 2) - 1);
             foreach (var valuesModel in models)
             {
+                var stepRanks = valuesModel.Ranks.ExtendArray(2);
+                var ranksForInterpolation = valuesModel.Ranks.ExtendSingleLinearInterpolatedArray();
+                valuesModel.Times = valuesModel.Times.ExtendArray(2);
+                valuesModel.Values = valuesModel.Values.ExtendSingleLinearInterpolatedArray();
+
+                var ranksSpline = new NaturalSpline(xs, ranksForInterpolation, resolution);
                 var valuesSpline = new NaturalSpline(xs, valuesModel.Values, resolution);
-                var ranksSpline = new NaturalSpline(xs, valuesModel.Ranks, resolution);
                 valuesModel.RanksInterpolated = ranksSpline.interpolatedYs;
-                valuesModel.RankSteps = valuesModel.Ranks.ExtendArray(resolution);
+                valuesModel.RankSteps = stepRanks.ExtendArray(resolution);
                 valuesModel.Times = valuesModel.Times.ExtendArray(resolution);
                 valuesModel.ValuesInterpolated = valuesSpline.interpolatedYs;
             }
@@ -194,8 +253,22 @@
                 barModel.IsSuspended = true;
                 barModel.Index = valuesModel.RankSteps[positionIndex];
                 var offset = (barModel.Index - valuesModel.RanksInterpolated[positionIndex]);
-                barModel.BarOpacity = 1 - (Math.Sin(offset.Abs() * 0.7 * Math.PI) * 0.7);
-                barModel.IndexOffset = offset * barModel.BarContainerHeight;
+                var indexOffset = offset * barModel.BarContainerHeight;
+
+                /// Prevent the first winner is drawn outside the area.
+                if (barModel.Index == barModels.Count - 1 && indexOffset < 0)
+                {
+                    indexOffset = 0;
+                }
+
+                barModel.IndexOffset = indexOffset;
+                barModel.BarOpacity = 1 - (Math.Sin(offset.Abs() * 0.5 * Math.PI) * 0.7);
+                var value = valuesModel.ValuesInterpolated[positionIndex];
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
                 barModel.Value = valuesModel.ValuesInterpolated[positionIndex];
                 if (min > barModel.Value)
                 {
@@ -208,7 +281,7 @@
                 }
             }
 
-            if (min > 0)
+            if (min >= max)
             {
                 min = 0;
             }

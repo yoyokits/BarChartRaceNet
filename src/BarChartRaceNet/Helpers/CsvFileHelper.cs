@@ -1,6 +1,5 @@
 ﻿namespace BarChartRaceNet.Helpers
 {
-    using BarChartRaceNet.Common;
     using CsvHelper;
     using System;
     using System.Collections.Generic;
@@ -27,24 +26,15 @@
                 return null;
             }
 
-            try
+            string[][] array2DString = null;
+            using (var reader = new StreamReader(csvFilePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                string[][] array2DString = null;
-                using (var reader = new StreamReader(csvFilePath))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    var records = csv.GetRecords<dynamic>();
-                    array2DString = ConvertToList(records.ToList());
-                }
-
-                return array2DString;
-            }
-            catch (Exception e)
-            {
-                Logger.Info($"CsvFileHelper Exception: {e.Message}");
+                var records = csv.GetRecords<dynamic>();
+                array2DString = ConvertToList(records.ToList());
             }
 
-            return null;
+            return array2DString;
         }
 
         /// <summary>

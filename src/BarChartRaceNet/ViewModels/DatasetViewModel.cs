@@ -4,6 +4,7 @@
     using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
+    using System;
     using System.IO;
 
     /// <summary>
@@ -29,7 +30,6 @@
         {
             this.GlobalData = globalData;
             this.PropertyChanged += this.OnPropertyChanged;
-            this.CsvFilePath = this.GlobalData.SettingsModel.LastOpenedCsvFile;
         }
 
         #endregion Constructors
@@ -69,12 +69,25 @@
                     {
                         this.GlobalData.SettingsModel.LastOpenedCsvFile = this.CsvFilePath;
                         this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
-                        var stringArray = CsvFileHelper.Load(this.CsvFilePath);
-                        if (stringArray != null)
+                        try
                         {
-                            this.GlobalData.BarValuesModels = stringArray.DatasetToBarValuesModels();
+                            var stringArray = CsvFileHelper.Load(this.CsvFilePath);
+                            if (stringArray != null)
+                            {
+                                var barValuesModels = stringArray.DatasetToBarValuesModels();
+                                barValuesModels.AdjustArray();
+                                this.GlobalData.BarValuesModels = barValuesModels; ;
+                            }
+
+                            this.ItemsSource = stringArray;
                         }
-                        this.ItemsSource = stringArray;
+                        catch (Exception exception)
+                        {
+                            Logger.Info($"CsvFileHelper Exception: {exception.Message}");
+                            var fileName = Path.GetFileName(this.CsvFilePath);
+                            var message = $"Error opening {fileName}: {exception.Message}";
+                            this.GlobalData.ShowMessageAsync("Loading File Failed", message);
+                        }
                     }
                     else
                     {

@@ -15,7 +15,7 @@
 
         private IList<BarValuesModel> _barValuesModels;
 
-        private double _durationPerSampleInSeconds = 1;
+        private double _durationPerSampleInSeconds = 2;
 
         private double _framePerSecond = 25;
 
@@ -111,6 +111,7 @@
             {
                 case nameof(this.BarValuesModels):
                     this.BarValuesModels.Interpolate((int)(this.FramePerSecond * this.DurationPerSampleInSeconds).Round());
+                    this.OnPropertyChanged(nameof(this.MaxPositionIndex));
                     break;
 
                 default:

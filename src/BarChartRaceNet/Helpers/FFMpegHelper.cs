@@ -90,7 +90,7 @@
                     drawChartAction(frame);
                 });
 
-                Thread.Sleep(20);
+                Thread.Sleep(40);
                 element.Invoke(() =>
                 {
                     renderBmp.Render(element);

@@ -131,12 +131,12 @@
             get => _value;
             set
             {
-                if (!this.Set(this.PropertyChangedHandler, ref _value, value))
+                if (!this.Set(this.PropertyChangedHandler, ref _value, value, new RangeDouble(0, double.MaxValue)))
                 {
                     return;
                 }
 
-                this.ValueText = $"{this.Value:#}";
+                this.ValueText = $"{this.Value:0}";
             }
         }
 

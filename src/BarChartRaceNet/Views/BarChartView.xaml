@@ -23,7 +23,6 @@
                 Source="{Binding BarModels}">
                 <CollectionViewSource.SortDescriptions>
                     <componentmodel:SortDescription Direction="Descending" PropertyName="Index" />
-                    <componentmodel:SortDescription PropertyName="Name" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
         </ResourceDictionary>
@@ -126,7 +125,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="{Binding LowerGridLength}" />
                                             <ColumnDefinition Width="{Binding UpperGridLength}" />
-                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="300" />
                                         </Grid.ColumnDefinitions>
                                         <Grid
                                             Grid.Column="0"
@@ -147,7 +146,8 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image
                                                         Height="{Binding ElementName=BarChartViewRoot, Path=DataContext.BarThickness}"
-                                                        Margin="8,0,0,0"
+                                                        MaxWidth="150"
+                                                        Margin="16,0,0,0"
                                                         Opacity="{Binding BarOpacity}"
                                                         Source="{Binding Icon, Converter={StaticResource StringToVisibilityConverter}}"
                                                         Stretch="Uniform" />
