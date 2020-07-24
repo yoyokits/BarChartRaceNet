@@ -42,9 +42,9 @@
                 Text="{Binding Title}" />
             <TextBlock
                 Margin="0,8,0,0"
-                FontSize="{Binding SubTitleFontSize}"
+                FontSize="{Binding SubtitleFontSize}"
                 FontWeight="DemiBold"
-                Text="{Binding SubTitle}" />
+                Text="{Binding Subtitle}" />
         </StackPanel>
         <!--  Legend  -->
         <ItemsControl
@@ -85,7 +85,6 @@
         <Grid Grid.Row="2">
             <ItemsControl
                 Grid.Column="0"
-                Margin="0,0,200,0"
                 Grid.IsSharedSizeScope="True"
                 ItemsSource="{Binding Source={StaticResource BarModels}}">
                 <ItemsControl.ItemsPanel>
@@ -127,6 +126,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="{Binding LowerGridLength}" />
                                             <ColumnDefinition Width="{Binding UpperGridLength}" />
+                                            <ColumnDefinition Width="200" />
                                         </Grid.ColumnDefinitions>
                                         <Grid
                                             Grid.Column="0"

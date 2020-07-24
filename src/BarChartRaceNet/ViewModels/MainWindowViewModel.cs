@@ -77,6 +77,7 @@
         /// </summary>
         public void Dispose()
         {
+            this.ChartEditorViewModel.Dispose();
         }
 
         /// <summary>
@@ -87,14 +88,14 @@
         {
             var (_, _, commandParameter) = (ValueTuple<object, EventArgs, object>)obj;
             var window = (MetroWindow)commandParameter;
-            var settings = this.GlobalData.SettingsModel;
 
+            this.Dispose();
+            var settings = this.GlobalData.SettingsModel;
             settings.WindowPosition = new Point(window.Left, window.Top);
             settings.WindowWidth = window.ActualWidth;
             settings.WindowHeight = window.Height;
             settings.WindowState = window.WindowState;
             SettingsHelper.Save(settings, window, this);
-            this.Dispose();
         }
 
         /// <summary>

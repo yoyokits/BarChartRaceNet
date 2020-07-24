@@ -12,7 +12,7 @@
     /// <summary>
     /// Defines the <see cref="ChartEditorViewModel" />.
     /// </summary>
-    public class ChartEditorViewModel : NotifyPropertyChanged
+    public class ChartEditorViewModel : NotifyPropertyChanged, IDisposable
     {
         #region Constructors
 
@@ -27,6 +27,7 @@
             this.BarAnimationModel.PropertyChanged += this.OnBarAnimationModel_PropertyChanged;
             this.BarChartViewModel = new BarChartViewModel(this.GlobalData);
             this.BarChartViewLoadedCommand = new RelayCommand(this.OnBarChartViewLoaded, nameof(this.BarChartViewLoadedCommand));
+            this.Initialize();
         }
 
         #endregion Constructors
@@ -63,6 +64,23 @@
         #region Methods
 
         /// <summary>
+        /// The Dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            var settings = this.GlobalData.SettingsModel;
+            settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
+            settings.BarSpace = this.BarChartViewModel.BarSpace;
+            settings.BarThickness = this.BarChartViewModel.BarThickness;
+            settings.ChartHeight = this.BarChartViewModel.Height;
+            settings.ChartWidth = this.BarChartViewModel.Width;
+            settings.Subtitle = this.BarChartViewModel.Subtitle;
+            settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
+            settings.Title = this.BarChartViewModel.Title;
+            settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
+        }
+
+        /// <summary>
         /// The OnExportChart.
         /// </summary>
         /// <param name="filePath">The filePath<see cref="string"/>.</param>
@@ -84,6 +102,23 @@
                     this.GlobalData.ShowMessageAsync($"Export Failed", $"Error: {e.Message}");
                 }
             });
+        }
+
+        /// <summary>
+        /// The Initialize.
+        /// </summary>
+        private void Initialize()
+        {
+            var settings = this.GlobalData.SettingsModel;
+            this.BarChartViewModel.BarNameFontSize = settings.BarNameFontSize;
+            this.BarChartViewModel.BarSpace = settings.BarSpace;
+            this.BarChartViewModel.BarThickness = settings.BarThickness;
+            this.BarChartViewModel.Height = settings.ChartHeight;
+            this.BarChartViewModel.Subtitle = settings.Subtitle;
+            this.BarChartViewModel.SubtitleFontSize = settings.SubtitleFontSize;
+            this.BarChartViewModel.Title = settings.Title;
+            this.BarChartViewModel.TitleFontSize = settings.TitleFontSize;
+            this.BarChartViewModel.Width = settings.ChartWidth;
         }
 
         /// <summary>
@@ -127,7 +162,7 @@
         /// <param name="positionIndex">The positionIndex<see cref="int"/>.</param>
         private void OnDrawChart(int positionIndex)
         {
-            // this.BarChartViewModel.SubTitle = $"Frame: {positionIndex}";
+            // this.BarChartViewModel.Subtitle = $"Frame: {positionIndex}";
             this.BarAnimationModel.PositionIndex = positionIndex;
             this.BarChartView.UpdateLayout();
         }

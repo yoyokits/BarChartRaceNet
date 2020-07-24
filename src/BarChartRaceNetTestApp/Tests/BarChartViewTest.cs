@@ -47,7 +47,7 @@
         private void GenerateDummyData(BarChartViewModel viewModel)
         {
             viewModel.Title = "Bar Chart Test App";
-            viewModel.SubTitle = "Show Bar Chart with Dummy Data";
+            viewModel.Subtitle = "Show Bar Chart with Dummy Data";
             var n = 5;
             var range = new RangeDouble(0, 1000);
             for (var i = 0; i < n; i++)

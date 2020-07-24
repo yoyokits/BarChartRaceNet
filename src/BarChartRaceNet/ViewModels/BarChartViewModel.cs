@@ -36,9 +36,9 @@
 
         private BarModel _selectedBarModel;
 
-        private string _subTitle = "Chart sub title";
+        private string _subtitle = "Chart sub title";
 
-        private double _subTitleFontSize = 24;
+        private double _subtitleFontSize = 24;
 
         private string _time = "2020";
 
@@ -145,14 +145,14 @@
         public BarModel SelectedBarModel { get => _selectedBarModel; set => this.Set(this.PropertyChangedHandler, ref _selectedBarModel, value); }
 
         /// <summary>
-        /// Gets or sets the SubTitle.
+        /// Gets or sets the Subtitle.
         /// </summary>
-        public string SubTitle { get => _subTitle; set => this.Set(this.PropertyChangedHandler, ref _subTitle, value); }
+        public string Subtitle { get => _subtitle; set => this.Set(this.PropertyChangedHandler, ref _subtitle, value); }
 
         /// <summary>
-        /// Gets or sets the SubTitleFontSize.
+        /// Gets or sets the SubtitleFontSize.
         /// </summary>
-        public double SubTitleFontSize { get => _subTitleFontSize; set => this.Set(this.PropertyChangedHandler, ref _subTitleFontSize, value); }
+        public double SubtitleFontSize { get => _subtitleFontSize; set => this.Set(this.PropertyChangedHandler, ref _subtitleFontSize, value); }
 
         /// <summary>
         /// Gets or sets the Time.

@@ -5,7 +5,6 @@
     using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
     using System.IO;
-    using System.Windows.Input;
 
     /// <summary>
     /// Defines the <see cref="DatasetViewModel" />.

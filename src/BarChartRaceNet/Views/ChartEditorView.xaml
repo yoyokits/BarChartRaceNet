@@ -170,7 +170,7 @@
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="100"
                                 Minimum="6"
-                                Value="{Binding SubTitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding SubtitleFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <!--  Bar Name Font Size  -->
                             <TextBlock
                                 Grid.Row="6"
@@ -225,7 +225,7 @@
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
-                                Text="{Binding SubTitle, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
                     <GroupBox
