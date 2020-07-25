@@ -3,6 +3,7 @@
     using BarChartRaceNet.Resources;
     using Ookii.Dialogs.Wpf;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Defines the <see cref="LoadButton" />.
@@ -46,6 +47,11 @@
             if (this.LoadAction == null)
             {
                 return;
+            }
+
+            if (!Directory.Exists(this.InitialDirectory))
+            {
+                this.InitialDirectory = AppEnvironment.UserDocumentsFolder;
             }
 
             var dialog = new VistaOpenFileDialog

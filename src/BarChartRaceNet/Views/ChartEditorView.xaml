@@ -85,6 +85,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <!--  Width  -->
@@ -185,8 +186,61 @@
                                 Maximum="100"
                                 Minimum="6"
                                 Value="{Binding BarNameFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                            <!--  Bar Colors  -->
+                            <Button
+                                Grid.Row="7"
+                                Margin="{StaticResource ControlMargin}"
+                                Command="{Binding ElementName=ChartEditorViewRoot, Path=DataContext.RegenerateBarColorCommand}"
+                                Content="Regenerate Bar Colors" />
                         </Grid>
                     </GroupBox>
+                    <!--  Animation Settings  -->
+                    <GroupBox
+                        Margin="4,2"
+                        DataContext="{Binding BarAnimationModel}"
+                        Header="Animation Settings">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PropertyName" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition MaxWidth="260" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <!--  Sample Duration  -->
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Duration Per Sample in Seconds" />
+                            <mah:NumericUpDown
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                mah:TextBoxHelper.Watermark="Type Chart height"
+                                Maximum="100"
+                                Minimum="6"
+                                Value="{Binding DurationPerSampleInSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                            <!--  Frame Per Seconds  -->
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Frames Per Second" />
+                            <mah:NumericUpDown
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                mah:TextBoxHelper.Watermark="Type Chart height"
+                                Maximum="100"
+                                Minimum="6"
+                                Value="{Binding FramePerSecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                        </Grid>
+                    </GroupBox>
+                    <!--  Chart Data  -->
                     <GroupBox
                         Margin="4,2"
                         DataContext="{Binding BarChartViewModel}"
@@ -228,6 +282,7 @@
                                 Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
                         </Grid>
                     </GroupBox>
+                    <!--  Bar Chart Settings  -->
                     <GroupBox
                         Margin="4,2"
                         DataContext="{Binding BarChartViewModel.SelectedBarModel}"

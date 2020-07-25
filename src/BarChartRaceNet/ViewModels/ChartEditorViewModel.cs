@@ -28,6 +28,7 @@
             this.BarAnimationModel.PropertyChanged += this.OnBarAnimationModel_PropertyChanged;
             this.BarChartViewModel = new BarChartViewModel(this.GlobalData);
             this.BarChartViewLoadedCommand = new RelayCommand(this.OnBarChartViewLoaded, nameof(this.BarChartViewLoadedCommand));
+            this.RegenerateBarColorCommand = new RelayCommand(this.OnRegenerateBarColor, nameof(this.RegenerateBarColorCommand));
             this.InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory;
             this.Initialize();
         }
@@ -60,6 +61,11 @@
         /// Gets the GlobalData.
         /// </summary>
         public GlobalData GlobalData { get; }
+
+        /// <summary>
+        /// Gets the RegenerateBarColorCommand.
+        /// </summary>
+        public RelayCommand RegenerateBarColorCommand { get; }
 
         /// <summary>
         /// Gets or sets the InitialDirectory.
@@ -210,6 +216,18 @@
 
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// The OnRegenerateBarColor.
+        /// </summary>
+        /// <param name="obj">The obj<see cref="object"/>.</param>
+        private void OnRegenerateBarColor(object obj)
+        {
+            foreach (var barModel in this.BarChartViewModel.BarModels)
+            {
+                barModel.Color = ColorPaletteProvider.GetNext();
             }
         }
 

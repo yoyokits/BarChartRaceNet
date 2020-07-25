@@ -149,7 +149,7 @@
                                                         MaxWidth="150"
                                                         Margin="16,0,0,0"
                                                         Opacity="{Binding BarOpacity}"
-                                                        Source="{Binding Icon, Converter={StaticResource StringToVisibilityConverter}}"
+                                                        Source="{Binding Icon, Converter={StaticResource StringToVisibilityConverter}, IsAsync=True}"
                                                         Stretch="Uniform" />
                                                     <TextBlock
                                                         Margin="8,0,0,0"

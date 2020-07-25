@@ -3,8 +3,10 @@
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Helpers;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Defines the <see cref="BarAnimationModel" />.
@@ -49,7 +51,19 @@
         /// <summary>
         /// Gets or sets the DurationPerSampleInSeconds.
         /// </summary>
-        public double DurationPerSampleInSeconds { get => _durationPerSampleInSeconds; set => this.Set(this.PropertyChangedHandler, ref _durationPerSampleInSeconds, value); }
+        public double DurationPerSampleInSeconds
+        {
+            get => _durationPerSampleInSeconds;
+            set
+            {
+                if (!this.Set(this.PropertyChangedHandler, ref _durationPerSampleInSeconds, value))
+                {
+                    return;
+                }
+
+                Task.Run(() => this.ParseStringArrayAction?.Invoke());
+            }
+        }
 
         /// <summary>
         /// Gets the FrameCount.
@@ -59,7 +73,19 @@
         /// <summary>
         /// Gets or sets the FramePerSecond.
         /// </summary>
-        public double FramePerSecond { get => _framePerSecond; set => this.Set(this.PropertyChangedHandler, ref _framePerSecond, value); }
+        public double FramePerSecond
+        {
+            get => _framePerSecond;
+            set
+            {
+                if (!this.Set(this.PropertyChangedHandler, ref _framePerSecond, value))
+                {
+                    return;
+                }
+
+                this.ParseStringArrayAction?.BeginInvoke(null, this);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the Height.
@@ -95,6 +121,11 @@
         /// Gets or sets the Width.
         /// </summary>
         public double Width { get => _width; set => this.Set(this.PropertyChangedHandler, ref _width, value); }
+
+        /// <summary>
+        /// Gets or sets the ParseStringArrayAction.
+        /// </summary>
+        internal Action ParseStringArrayAction { get; set; }
 
         #endregion Properties
 

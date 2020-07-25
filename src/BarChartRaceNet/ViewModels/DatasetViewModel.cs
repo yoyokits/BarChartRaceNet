@@ -43,6 +43,11 @@
         public string CsvFilePath { get => _csvFilePath; set => this.Set(this.PropertyChangedHandler, ref _csvFilePath, value); }
 
         /// <summary>
+        /// Gets the DatasetStringArray.
+        /// </summary>
+        public string[][] DatasetStringArray { get; private set; }
+
+        /// <summary>
         /// Gets the GlobalData.
         /// </summary>
         public GlobalData GlobalData { get; }
@@ -57,6 +62,21 @@
         #region Methods
 
         /// <summary>
+        /// The ParseStringArray.
+        /// </summary>
+        internal void ParseStringArray()
+        {
+            if (this.DatasetStringArray == null)
+            {
+                return;
+            }
+
+            var barValuesModels = this.DatasetStringArray.DatasetToBarValuesModels();
+            barValuesModels.AdjustArray();
+            UIThreadHelper.InvokeAsync(() => this.GlobalData.BarValuesModels = barValuesModels);
+        }
+
+        /// <summary>
         /// The LoadFile.
         /// </summary>
         private void LoadFile()
@@ -67,15 +87,13 @@
                 this.GlobalData.SettingsModel.InitialDirectory = Path.GetDirectoryName(this.CsvFilePath);
                 try
                 {
-                    var stringArray = CsvFileHelper.Load(this.CsvFilePath);
-                    if (stringArray != null)
+                    this.DatasetStringArray = CsvFileHelper.Load(this.CsvFilePath);
+                    if (this.DatasetStringArray != null)
                     {
-                        var barValuesModels = stringArray.DatasetToBarValuesModels();
-                        barValuesModels.AdjustArray();
-                        UIThreadHelper.InvokeAsync(() => this.GlobalData.BarValuesModels = barValuesModels);
+                        this.ParseStringArray();
                     }
 
-                    this.ItemsSource = stringArray;
+                    this.ItemsSource = this.DatasetStringArray;
                 }
                 catch (Exception exception)
                 {

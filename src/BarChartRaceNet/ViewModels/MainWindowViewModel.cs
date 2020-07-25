@@ -22,8 +22,9 @@
         /// </summary>
         public MainWindowViewModel()
         {
-            this.ChartEditorViewModel = new ChartEditorViewModel(this.GlobalData);
             this.DatasetViewModel = new DatasetViewModel(this.GlobalData);
+            this.ChartEditorViewModel = new ChartEditorViewModel(this.GlobalData);
+            this.ChartEditorViewModel.BarAnimationModel.ParseStringArrayAction = this.DatasetViewModel.ParseStringArray;
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
