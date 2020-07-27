@@ -1,13 +1,16 @@
 ﻿namespace BarChartRaceNet.ViewModels
 {
     using BarChartRaceNet.Common;
+    using BarChartRaceNet.Core;
     using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Helpers;
     using BarChartRaceNet.Models;
+    using BarChartRaceNet.Tools;
     using System;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -21,6 +24,12 @@
 
         private Brush _background = new SolidColorBrush(Colors.White);
 
+        private string _backgroundImage;
+
+        private double _backgroundImageOpacity = 1;
+
+        private double _backgroundImageWidth = 800;
+
         private Thickness _barMargin;
 
         private double _barNameFontSize = 18;
@@ -29,6 +38,8 @@
 
         private double _barThickness = 64;
 
+        private int _decimalPlaces;
+
         private double _height = 900;
 
         private RangeDouble _rangeX = new RangeDouble(0, 5);
@@ -36,6 +47,10 @@
         private RangeDouble _rangeY = new RangeDouble(0, 10);
 
         private BarModel _selectedBarModel;
+
+        private StatisticsMethod _statisticsMethod = StatisticsMethod.Total;
+
+        private string _statisticsOutputValue;
 
         private string _subtitle = "Chart sub title";
 
@@ -46,8 +61,6 @@
         private string _title = "Cekli Bar Chart Race";
 
         private double _titleFontSize = 32;
-
-        private double _total;
 
         private double _width = 1200;
 
@@ -66,6 +79,7 @@
             this.BarModels.CollectionChanged += this.OnBarModels_CollectionChanged;
             this.SelectBarCommand = new RelayCommand(this.OnSelectBar, nameof(this.SelectBarCommand));
             this.BarSpace = 10;
+            this.PropertyChanged += this.OnPropertyChanged;
         }
 
         #endregion Constructors
@@ -73,9 +87,19 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Background.
+        /// Gets or sets the BackgroundImage.
         /// </summary>
-        public Brush Background { get => _background; set => this.Set(this.PropertyChangedHandler, ref _background, value); }
+        public string BackgroundImage { get => _backgroundImage; set => this.Set(this.PropertyChangedHandler, ref _backgroundImage, value); }
+
+        /// <summary>
+        /// Gets or sets the BackgroundImageOpacity.
+        /// </summary>
+        public double BackgroundImageOpacity { get => _backgroundImageOpacity; set => this.Set(this.PropertyChangedHandler, ref _backgroundImageOpacity, value); }
+
+        /// <summary>
+        /// Gets or sets the BackgroundImageWidth.
+        /// </summary>
+        public double BackgroundImageWidth { get => _backgroundImageWidth; set => this.Set(this.PropertyChangedHandler, ref _backgroundImageWidth, value); }
 
         /// <summary>
         /// Gets the BarMargin.
@@ -116,6 +140,11 @@
         public double BarThickness { get => _barThickness; set => this.Set(this.PropertyChangedHandler, ref _barThickness, value, new RangeDouble(10, 10000)); }
 
         /// <summary>
+        /// Gets or sets the DecimalPlaces.
+        /// </summary>
+        public int DecimalPlaces { get => _decimalPlaces; set => this.Set(this.PropertyChangedHandler, ref _decimalPlaces, value); }
+
+        /// <summary>
         /// Gets the GlobalData.
         /// </summary>
         public GlobalData GlobalData { get; }
@@ -146,6 +175,16 @@
         public BarModel SelectedBarModel { get => _selectedBarModel; set => this.Set(this.PropertyChangedHandler, ref _selectedBarModel, value); }
 
         /// <summary>
+        /// Gets or sets the StatisticsMethod.
+        /// </summary>
+        public StatisticsMethod StatisticsMethod { get => _statisticsMethod; set => this.Set(this.PropertyChangedHandler, ref _statisticsMethod, value); }
+
+        /// <summary>
+        /// Gets or sets the StatisticsOutputValue.
+        /// </summary>
+        public string StatisticsOutputValue { get => _statisticsOutputValue; set => this.Set(this.PropertyChangedHandler, ref _statisticsOutputValue, value); }
+
+        /// <summary>
         /// Gets or sets the Subtitle.
         /// </summary>
         public string Subtitle { get => _subtitle; set => this.Set(this.PropertyChangedHandler, ref _subtitle, value); }
@@ -171,11 +210,6 @@
         public double TitleFontSize { get => _titleFontSize; set => this.Set(this.PropertyChangedHandler, ref _titleFontSize, value); }
 
         /// <summary>
-        /// Gets or sets the Total.
-        /// </summary>
-        public double Total { get => _total; set => this.Set(this.PropertyChangedHandler, ref _total, value); }
-
-        /// <summary>
         /// Gets or sets the Width.
         /// </summary>
         public double Width { get => _width; set => this.Set(this.PropertyChangedHandler, ref _width, value); }
@@ -183,6 +217,28 @@
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// The CalculateStatisticsOutputValue.
+        /// </summary>
+        private void CalculateStatisticsOutputValue()
+        {
+            var value = this.BarModels.Select(model => model.Value).ToList();
+            this.StatisticsOutputValue = value.Calculate(this.StatisticsMethod, this.DecimalPlaces);
+        }
+
+        /// <summary>
+        /// The GetValue.
+        /// </summary>
+        /// <param name="value">The value<see cref="double"/>.</param>
+        /// <returns>The <see cref="string"/>.</returns>
+        private string GetValue(double value)
+        {
+            var isPercentage = this.StatisticsMethod == StatisticsMethod.Percentage || this.StatisticsMethod == StatisticsMethod.PercentageAverage;
+            var percentChar = isPercentage ? "%" : string.Empty;
+            var stringValue = $"{value.Format(this.DecimalPlaces)}{percentChar}";
+            return stringValue;
+        }
 
         /// <summary>
         /// The OnBarModels_CollectionChanged.
@@ -193,16 +249,18 @@
         {
             if (e.OldItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.OldItems)
+                foreach (BarModel barModel in e.OldItems)
                 {
-                    item.PropertyChanged -= OnItem_PropertyChanged;
+                    barModel.PropertyChanged -= OnItem_PropertyChanged;
+                    barModel.GetValueFunc = this.GetValue;
                 }
             }
             if (e.NewItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.NewItems)
+                foreach (BarModel barModel in e.NewItems)
                 {
-                    item.PropertyChanged += OnItem_PropertyChanged;
+                    barModel.PropertyChanged += OnItem_PropertyChanged;
+                    barModel.GetValueFunc = this.GetValue;
                 }
             }
         }
@@ -228,17 +286,24 @@
                     break;
 
                 case nameof(BarModel.Value):
-                    var total = 0.0;
-                    foreach (var model in this.BarModels)
-                    {
-                        total += model.Value;
-                    }
-
-                    this.Total = total;
+                    this.CalculateStatisticsOutputValue();
                     break;
 
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// The OnPropertyChanged.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="PropertyChangedEventArgs"/>.</param>
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(this.DecimalPlaces) || e.PropertyName == nameof(this.StatisticsMethod))
+            {
+                this.CalculateStatisticsOutputValue();
             }
         }
 

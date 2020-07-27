@@ -1,5 +1,6 @@
 ﻿namespace BarChartRaceNet.Models
 {
+    using BarChartRaceNet.Core;
     using System.Collections.Generic;
     using System.Windows;
 
@@ -9,6 +10,21 @@
     public class SettingsModel
     {
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the BackgroundImage.
+        /// </summary>
+        public string BackgroundImage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the BackgroundImageOpacity.
+        /// </summary>
+        public double BackgroundImageOpacity { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the BackgroundImageWidth.
+        /// </summary>
+        public double BackgroundImageWidth { get; set; } = 800;
 
         /// <summary>
         /// Gets or sets the BarNameFontSize.
@@ -36,6 +52,11 @@
         public double ChartWidth { get; set; } = 1920;
 
         /// <summary>
+        /// Gets or sets the DecimalPlaces.
+        /// </summary>
+        public int DecimalPlaces { get; set; }
+
+        /// <summary>
         /// Gets or sets the InitialDirectory.
         /// </summary>
         public string InitialDirectory { get; set; }
@@ -44,6 +65,11 @@
         /// Gets or sets the LastOpenedCsvFile.
         /// </summary>
         public string LastOpenedCsvFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the StatisticsMethod.
+        /// </summary>
+        public StatisticsMethod StatisticsMethod { get; set; } = StatisticsMethod.Total;
 
         /// <summary>
         /// Gets or sets the StringToImageUrlDictionary.

@@ -2,6 +2,7 @@
 {
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Extensions;
+    using System;
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Media;
@@ -50,6 +51,7 @@
         {
             this.Color = ColorPaletteProvider.GetNext();
             this.PropertyChanged += this.OnPropertyChanged;
+            this.GetValueFunc = (value) => $"{value:0.}";
         }
 
         #endregion Constructors
@@ -87,6 +89,11 @@
                 this.Brush = new SolidColorBrush(this.Color);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the GetValueFunc.
+        /// </summary>
+        public Func<double, string> GetValueFunc { get; internal set; }
 
         /// <summary>
         /// Gets or sets the Icon.
@@ -136,7 +143,7 @@
                     return;
                 }
 
-                this.ValueText = $"{this.Value:0}";
+                this.ValueText = this.GetValueFunc(this.Value);
             }
         }
 

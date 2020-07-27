@@ -82,11 +82,16 @@
         public void Dispose()
         {
             var settings = this.GlobalData.SettingsModel;
+            settings.BackgroundImage = this.BarChartViewModel.BackgroundImage;
+            settings.BackgroundImageOpacity = this.BarChartViewModel.BackgroundImageOpacity;
+            settings.BackgroundImageWidth = this.BarChartViewModel.BackgroundImageWidth;
             settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
             settings.BarSpace = this.BarChartViewModel.BarSpace;
             settings.BarThickness = this.BarChartViewModel.BarThickness;
             settings.ChartHeight = this.BarChartViewModel.Height;
             settings.ChartWidth = this.BarChartViewModel.Width;
+            settings.DecimalPlaces = this.BarChartViewModel.DecimalPlaces;
+            settings.StatisticsMethod = this.BarChartViewModel.StatisticsMethod;
             settings.Subtitle = this.BarChartViewModel.Subtitle;
             settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
             settings.Title = this.BarChartViewModel.Title;
@@ -144,10 +149,15 @@
         private void Initialize()
         {
             var settings = this.GlobalData.SettingsModel;
+            this.BarChartViewModel.BackgroundImage = settings.BackgroundImage;
+            this.BarChartViewModel.BackgroundImageOpacity = settings.BackgroundImageOpacity;
+            this.BarChartViewModel.BackgroundImageWidth = settings.BackgroundImageWidth;
             this.BarChartViewModel.BarNameFontSize = settings.BarNameFontSize;
             this.BarChartViewModel.BarSpace = settings.BarSpace;
             this.BarChartViewModel.BarThickness = settings.BarThickness;
+            this.BarChartViewModel.DecimalPlaces = settings.DecimalPlaces;
             this.BarChartViewModel.Height = settings.ChartHeight;
+            this.BarChartViewModel.StatisticsMethod = settings.StatisticsMethod;
             this.BarChartViewModel.Subtitle = settings.Subtitle;
             this.BarChartViewModel.SubtitleFontSize = settings.SubtitleFontSize;
             this.BarChartViewModel.Title = settings.Title;

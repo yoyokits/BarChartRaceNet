@@ -12,7 +12,7 @@
     d:DataContext="{d:DesignInstance viewmodels:BarChartViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="{Binding Background}"
+    Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -43,6 +43,7 @@
                 Margin="0,8,0,0"
                 FontSize="{Binding SubtitleFontSize}"
                 FontWeight="DemiBold"
+                Foreground="DimGray"
                 Text="{Binding Subtitle}" />
         </StackPanel>
         <!--  Legend  -->
@@ -82,6 +83,11 @@
         </ItemsControl>
         <!--  Chart  -->
         <Grid Grid.Row="2">
+            <Image
+                Width="{Binding BackgroundImageWidth}"
+                Opacity="{Binding BackgroundImageOpacity}"
+                Source="{Binding BackgroundImage, IsAsync=True}"
+                Stretch="Uniform" />
             <ItemsControl
                 Grid.Column="0"
                 Grid.IsSharedSizeScope="True"
@@ -175,20 +181,12 @@
                     FontWeight="Bold"
                     Text="{Binding Time}"
                     TextAlignment="Right" />
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <TextBlock
-                        FontSize="40"
-                        FontWeight="SemiBold"
-                        Foreground="DimGray"
-                        Text="Total: "
-                        TextAlignment="Right" />
-                    <TextBlock
-                        FontSize="40"
-                        FontWeight="SemiBold"
-                        Foreground="DimGray"
-                        Text="{Binding Total, StringFormat={}{0:#,#}}"
-                        TextAlignment="Right" />
-                </StackPanel>
+                <TextBlock
+                    FontSize="40"
+                    FontWeight="SemiBold"
+                    Foreground="DimGray"
+                    Text="{Binding StatisticsOutputValue}"
+                    TextAlignment="Right" />
             </StackPanel>
         </Grid>
     </Grid>
