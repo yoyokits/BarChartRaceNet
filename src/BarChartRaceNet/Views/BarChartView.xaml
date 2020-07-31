@@ -36,11 +36,13 @@
         <!--  Title  -->
         <StackPanel Grid.Row="0" Margin="0,0,0,8">
             <TextBlock
+                FontFamily="Segoe UI"
                 FontSize="{Binding TitleFontSize}"
                 FontWeight="Bold"
                 Text="{Binding Title}" />
             <TextBlock
                 Margin="0,8,0,0"
+                FontFamily="Segoe UI"
                 FontSize="{Binding SubtitleFontSize}"
                 FontWeight="DemiBold"
                 Foreground="DimGray"
@@ -75,6 +77,7 @@
                         <TextBlock
                             Margin="8,0,12,0"
                             VerticalAlignment="Center"
+                            FontFamily="Segoe UI"
                             FontSize="{Binding Source={StaticResource BarChartViewModelProxy}, Path=DataContext.BarNameFontSize}"
                             Text="{Binding Name}" />
                     </StackPanel>
@@ -124,6 +127,7 @@
                                             VerticalAlignment="Center"
                                             FontSize="{Binding Source={StaticResource BarChartViewModelProxy}, Path=DataContext.BarNameFontSize}"
                                             FontWeight="Bold"
+                                            Opacity="{Binding BarOpacity}"
                                             Text="{Binding Name}" />
                                     </Grid>
                                     <!--  Bar Chart Data  -->
@@ -177,13 +181,15 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom">
                 <TextBlock
-                    FontSize="64"
+                    FontFamily="Segoe UI"
+                    FontSize="80"
                     FontWeight="Bold"
                     Text="{Binding Time}"
                     TextAlignment="Right" />
                 <TextBlock
+                    FontFamily="Segoe UI"
                     FontSize="40"
-                    FontWeight="SemiBold"
+                    FontWeight="Bold"
                     Foreground="DimGray"
                     Text="{Binding StatisticsOutputValue}"
                     TextAlignment="Right" />

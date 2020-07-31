@@ -24,7 +24,7 @@
         {
             this.DatasetViewModel = new DatasetViewModel(this.GlobalData);
             this.ChartEditorViewModel = new ChartEditorViewModel(this.GlobalData);
-            this.ChartEditorViewModel.BarAnimationModel.ParseStringArrayAction = this.DatasetViewModel.ParseStringArray;
+            this.ChartEditorViewModel.BarAnimationModel.ReloadDataAction = this.ReloadData;
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
@@ -79,6 +79,7 @@
         public void Dispose()
         {
             this.ChartEditorViewModel.Dispose();
+            this.SaveSettings();
         }
 
         /// <summary>
@@ -87,16 +88,7 @@
         /// <param name="obj">The obj<see cref="object"/>.</param>
         private void OnClosing(object obj)
         {
-            var (_, _, commandParameter) = (ValueTuple<object, EventArgs, object>)obj;
-            var window = (MetroWindow)commandParameter;
-
             this.Dispose();
-            var settings = this.GlobalData.SettingsModel;
-            settings.WindowPosition = new Point(window.Left, window.Top);
-            settings.WindowWidth = window.ActualWidth;
-            settings.WindowHeight = window.Height;
-            settings.WindowState = window.WindowState;
-            SettingsHelper.Save(settings, window, this);
         }
 
         /// <summary>
@@ -124,6 +116,33 @@
             window.WindowState = settings.WindowState;
             this.GlobalData.MainWindow = window;
             window.Dispatcher.BeginInvoke((Action)(() => this.DatasetViewModel.CsvFilePath = this.GlobalData.SettingsModel.LastOpenedCsvFile));
+        }
+
+        /// <summary>
+        /// The ReloadData.
+        /// </summary>
+        private void ReloadData()
+        {
+            this.SaveSettings();
+            this.DatasetViewModel?.ParseStringArray();
+        }
+
+        /// <summary>
+        /// The SaveSettings.
+        /// </summary>
+        private void SaveSettings()
+        {
+            this.ChartEditorViewModel.UpdateSettings();
+            UIThreadHelper.Invoke(() =>
+            {
+                var window = this.GlobalData.MainWindow;
+                var settings = this.GlobalData.SettingsModel;
+                settings.WindowPosition = new Point(window.Left, window.Top);
+                settings.WindowWidth = window.ActualWidth;
+                settings.WindowHeight = window.Height;
+                settings.WindowState = window.WindowState;
+                SettingsHelper.Save(settings, window);
+            });
         }
 
         #endregion Methods

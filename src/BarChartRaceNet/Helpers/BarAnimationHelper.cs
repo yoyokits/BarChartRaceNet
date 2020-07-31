@@ -292,7 +292,7 @@
                 min = 0;
             }
 
-            var visibleRange = new RangeDouble(min, max);
+            var visibleRange = new RangeDouble(0, max);
             for (var i = 0; i < barModels.Count; i++)
             {
                 barModels[i].VisibleRange = visibleRange;

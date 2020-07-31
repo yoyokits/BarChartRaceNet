@@ -49,7 +49,7 @@
 
         public static string Format(this double value, int digits)
         {
-            var format = "{0:0." + new string('0', digits) + "}";
+            var format = "{0:N"+$"{digits}"+"}";
             var resultString = string.Format(format, value);
             return resultString;
         }

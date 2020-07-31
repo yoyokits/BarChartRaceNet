@@ -203,6 +203,7 @@
                                 Grid.Column="2"
                                 Height="26"
                                 Margin="{StaticResource ControlMargin}"
+                                VerticalContentAlignment="Center"
                                 Text="{Binding BackgroundImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Background Image Width  -->
                             <TextBlock
@@ -233,7 +234,8 @@
                                 Interval="0.1"
                                 Maximum="1"
                                 Minimum="0"
-                                Value="{Binding BackgroundImageOpacity, Mode=TwoWay, StringFormat={}{0:0.##,0.##}, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                                StringFormat="0.##"
+                                Value="{Binding BackgroundImageOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Bar Colors  -->
                             <Button
                                 Grid.Row="10"
@@ -318,6 +320,7 @@
                                 Grid.Column="2"
                                 Height="26"
                                 Margin="{StaticResource ControlMargin}"
+                                VerticalContentAlignment="Center"
                                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
                             <!--  Subtitle  -->
                             <TextBlock
@@ -330,6 +333,7 @@
                                 Grid.Column="2"
                                 Height="26"
                                 Margin="{StaticResource ControlMargin}"
+                                VerticalContentAlignment="Center"
                                 Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
                             <!--  Decimal Places  -->
                             <TextBlock
@@ -388,6 +392,7 @@
                                 Grid.Column="2"
                                 Height="26"
                                 Margin="{StaticResource ControlMargin}"
+                                VerticalContentAlignment="Center"
                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                             <!--  Icon  -->
                             <TextBlock
@@ -400,6 +405,7 @@
                                 Grid.Column="2"
                                 Height="26"
                                 Margin="{StaticResource ControlMargin}"
+                                VerticalContentAlignment="Center"
                                 Text="{Binding Icon, UpdateSourceTrigger=PropertyChanged, Delay=1000}" />
                         </Grid>
                     </GroupBox>

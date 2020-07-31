@@ -81,30 +81,6 @@
         /// </summary>
         public void Dispose()
         {
-            var settings = this.GlobalData.SettingsModel;
-            settings.BackgroundImage = this.BarChartViewModel.BackgroundImage;
-            settings.BackgroundImageOpacity = this.BarChartViewModel.BackgroundImageOpacity;
-            settings.BackgroundImageWidth = this.BarChartViewModel.BackgroundImageWidth;
-            settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
-            settings.BarSpace = this.BarChartViewModel.BarSpace;
-            settings.BarThickness = this.BarChartViewModel.BarThickness;
-            settings.ChartHeight = this.BarChartViewModel.Height;
-            settings.ChartWidth = this.BarChartViewModel.Width;
-            settings.DecimalPlaces = this.BarChartViewModel.DecimalPlaces;
-            settings.StatisticsMethod = this.BarChartViewModel.StatisticsMethod;
-            settings.Subtitle = this.BarChartViewModel.Subtitle;
-            settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
-            settings.Title = this.BarChartViewModel.Title;
-            settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
-            var dict = settings.StringToImageUrlDictionary;
-            foreach (var barModel in this.BarChartViewModel.BarModels)
-            {
-                var icon = barModel.Icon;
-                if (icon != null && icon.Contains("http"))
-                {
-                    dict[barModel.Name] = icon;
-                }
-            }
         }
 
         /// <summary>
@@ -221,6 +197,7 @@
             switch (e.PropertyName)
             {
                 case nameof(this.GlobalData.BarValuesModels):
+                    this.BarAnimationModel.PositionIndex = 0;
                     this.BarAnimationModel.BarValuesModels = this.GlobalData.BarValuesModels;
                     break;
 
@@ -238,6 +215,37 @@
             foreach (var barModel in this.BarChartViewModel.BarModels)
             {
                 barModel.Color = ColorPaletteProvider.GetNext();
+            }
+        }
+
+        /// <summary>
+        /// The UpdateSettings.
+        /// </summary>
+        internal void UpdateSettings()
+        {
+            var settings = this.GlobalData.SettingsModel;
+            settings.BackgroundImage = this.BarChartViewModel.BackgroundImage;
+            settings.BackgroundImageOpacity = this.BarChartViewModel.BackgroundImageOpacity;
+            settings.BackgroundImageWidth = this.BarChartViewModel.BackgroundImageWidth;
+            settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
+            settings.BarSpace = this.BarChartViewModel.BarSpace;
+            settings.BarThickness = this.BarChartViewModel.BarThickness;
+            settings.ChartHeight = this.BarChartViewModel.Height;
+            settings.ChartWidth = this.BarChartViewModel.Width;
+            settings.DecimalPlaces = this.BarChartViewModel.DecimalPlaces;
+            settings.StatisticsMethod = this.BarChartViewModel.StatisticsMethod;
+            settings.Subtitle = this.BarChartViewModel.Subtitle;
+            settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
+            settings.Title = this.BarChartViewModel.Title;
+            settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
+            var dict = settings.StringToImageUrlDictionary;
+            foreach (var barModel in this.BarChartViewModel.BarModels)
+            {
+                var icon = barModel.Icon;
+                if (icon != null && icon.Contains("http"))
+                {
+                    dict[barModel.Name] = icon;
+                }
             }
         }
 

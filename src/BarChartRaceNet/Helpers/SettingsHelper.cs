@@ -2,7 +2,6 @@
 {
     using BarChartRaceNet.Common;
     using BarChartRaceNet.Models;
-    using BarChartRaceNet.ViewModels;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using System;
@@ -99,10 +98,9 @@
         /// </summary>
         /// <param name="settings">The settings<see cref="SettingsModel"/>.</param>
         /// <param name="window">The window<see cref="Window"/>.</param>
-        /// <param name="viewModel">The viewModel<see cref="MainWindowViewModel"/>.</param>
-        internal static void Save(SettingsModel settings, Window window, MainWindowViewModel viewModel)
+        internal static void Save(SettingsModel settings, Window window)
         {
-            UpdateSettings(settings, window, viewModel);
+            UpdateSettings(settings, window);
             var settingsFolder = Path.GetDirectoryName(UserJsonSettingsPath);
             if (!Directory.Exists(settingsFolder))
             {
@@ -127,8 +125,7 @@
         /// </summary>
         /// <param name="settings">The settings<see cref="SettingsModel"/>.</param>
         /// <param name="window">The window<see cref="Window"/>.</param>
-        /// <param name="viewModel">The viewModel<see cref="MainWindowViewModel"/>.</param>
-        internal static void UpdateSettings(SettingsModel settings, Window window, MainWindowViewModel viewModel)
+        internal static void UpdateSettings(SettingsModel settings, Window window)
         {
             settings.WindowPosition = new Point(window.Left, window.Top);
             settings.WindowWidth = window.ActualWidth;

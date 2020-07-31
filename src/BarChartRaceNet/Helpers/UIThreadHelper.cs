@@ -62,7 +62,7 @@
             }
             else
             {
-                dispatcher.Invoke(() => action?.Invoke());
+                dispatcher.Invoke(() => action?.Invoke(), DispatcherPriority.ContextIdle);
             }
         }
 

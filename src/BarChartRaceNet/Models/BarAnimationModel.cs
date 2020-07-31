@@ -61,7 +61,7 @@
                     return;
                 }
 
-                Task.Run(() => this.ParseStringArrayAction?.Invoke());
+                Task.Run(() => this.ReloadDataAction?.Invoke());
             }
         }
 
@@ -83,7 +83,7 @@
                     return;
                 }
 
-                this.ParseStringArrayAction?.BeginInvoke(null, this);
+                this.ReloadDataAction?.Invoke();
             }
         }
 
@@ -123,9 +123,9 @@
         public double Width { get => _width; set => this.Set(this.PropertyChangedHandler, ref _width, value); }
 
         /// <summary>
-        /// Gets or sets the ParseStringArrayAction.
+        /// Gets or sets the ReloadDataAction.
         /// </summary>
-        internal Action ParseStringArrayAction { get; set; }
+        internal Action ReloadDataAction { get; set; }
 
         #endregion Properties
 

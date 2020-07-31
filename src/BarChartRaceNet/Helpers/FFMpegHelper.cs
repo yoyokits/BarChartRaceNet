@@ -90,7 +90,7 @@
                     drawChartAction(frame);
                 });
 
-                Thread.Sleep(40);
+                Thread.Sleep(1);
                 element.Invoke(() =>
                 {
                     renderBmp.Render(element);
@@ -104,6 +104,7 @@
                     bitmap.UnlockBits(bitmapData);
                 });
 
+                Thread.Sleep(1);
                 using var wrapper = new BitmapVideoFrameWrapper(bitmap);
                 yield return wrapper;
             }
