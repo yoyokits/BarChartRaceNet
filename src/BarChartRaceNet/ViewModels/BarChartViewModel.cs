@@ -42,11 +42,15 @@
 
         private double _height = 900;
 
+        private bool _isVisibleRangeFromZero;
+
         private RangeDouble _rangeX = new RangeDouble(0, 5);
 
         private RangeDouble _rangeY = new RangeDouble(0, 10);
 
         private BarModel _selectedBarModel;
+
+        private ListSortDirection _sortDirection = ListSortDirection.Descending;
 
         private StatisticsMethod _statisticsMethod = StatisticsMethod.Total;
 
@@ -155,6 +159,11 @@
         public double Height { get => _height; set => this.Set(this.PropertyChangedHandler, ref _height, value); }
 
         /// <summary>
+        /// Gets or sets a value indicating whether IsVisibleRangeFromZero.
+        /// </summary>
+        public bool IsVisibleRangeFromZero { get => _isVisibleRangeFromZero; set => this.Set(this.PropertyChangedHandler, ref _isVisibleRangeFromZero, value); }
+
+        /// <summary>
         /// Gets or sets the RangeX.
         /// </summary>
         public RangeDouble RangeX { get => _rangeX; set => this.Set(this.PropertyChangedHandler, ref _rangeX, value); }
@@ -173,6 +182,11 @@
         /// Gets or sets the SelectedBarModel.
         /// </summary>
         public BarModel SelectedBarModel { get => _selectedBarModel; set => this.Set(this.PropertyChangedHandler, ref _selectedBarModel, value); }
+
+        /// <summary>
+        /// Gets or sets the SortDirection.
+        /// </summary>
+        public ListSortDirection SortDirection { get => _sortDirection; set => this.Set(this.PropertyChangedHandler, ref _sortDirection, value); }
 
         /// <summary>
         /// Gets or sets the StatisticsMethod.

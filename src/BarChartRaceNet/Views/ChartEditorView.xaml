@@ -8,6 +8,7 @@
     xmlns:extensions="clr-namespace:BarChartRaceNet.Extensions"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:scm="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter"
     xmlns:viewmodels="clr-namespace:BarChartRaceNet.ViewModels"
     xmlns:views="clr-namespace:BarChartRaceNet.Views"
     x:Name="ChartEditorViewRoot"
@@ -307,6 +308,8 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <!--  Title  -->
@@ -335,14 +338,28 @@
                                 Margin="{StaticResource ControlMargin}"
                                 VerticalContentAlignment="Center"
                                 Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
-                            <!--  Decimal Places  -->
+                            <!--  Sort Direction  -->
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="0"
                                 Margin="{StaticResource ControlMargin}"
-                                Text="Statistics Method" />
+                                Text="Sort Direction" />
                             <ComboBox
                                 Grid.Row="2"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                DisplayMemberPath="Description"
+                                ItemsSource="{Binding Source={extensions:Enumeration {x:Type scm:ListSortDirection}}}"
+                                SelectedValue="{Binding SortDirection, Delay=100}"
+                                SelectedValuePath="Value" />
+                            <!--  Statistics Method  -->
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Statistics Method" />
+                            <ComboBox
+                                Grid.Row="3"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
                                 DisplayMemberPath="Description"
@@ -351,18 +368,29 @@
                                 SelectedValuePath="Value" />
                             <!--  Decimal Places  -->
                             <TextBlock
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="0"
                                 Margin="{StaticResource ControlMargin}"
                                 Text="Decimal Places" />
                             <mah:NumericUpDown
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="2"
                                 Margin="{StaticResource ControlMargin}"
                                 mah:TextBoxHelper.Watermark="Type Chart height"
                                 Maximum="6"
                                 Minimum="0"
                                 Value="{Binding DecimalPlaces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                            <!--  Visible Range From Zero  -->
+                            <TextBlock
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Margin="{StaticResource ControlMargin}"
+                                Text="Visible Range From Zero" />
+                            <mah:ToggleSwitch
+                                Grid.Row="5"
+                                Grid.Column="2"
+                                Margin="{StaticResource ControlMargin}"
+                                IsOn="{Binding IsVisibleRangeFromZero}" />
                         </Grid>
                     </GroupBox>
                     <!--  Bar Chart Settings  -->

@@ -4,6 +4,7 @@
     using BarChartRaceNet.Extensions;
     using BarChartRaceNet.Models;
     using BarChartRaceNet.Tools;
+    using BarChartRaceNet.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -220,6 +221,7 @@
         /// </summary>
         /// <param name="barModels">The barModels<see cref="ObservableCollection{BarModel}"/>.</param>
         /// <param name="barValuesModels">The barValuesModels<see cref="IList{BarValuesModel}"/>.</param>
+        /// <param name="stringToImageUrlDictionary">The stringToImageUrlDictionary<see cref="Dictionary{string, string}"/>.</param>
         public static void UpdateBarModels(this IList<BarModel> barModels, IList<BarValuesModel> barValuesModels, Dictionary<string, string> stringToImageUrlDictionary)
         {
             barModels.Clear();
@@ -234,18 +236,17 @@
 
                 barModels.Add(barModel);
             }
-
-            UpdateBarModelsData(barModels, barValuesModels, 0);
         }
 
         /// <summary>
         /// The UpdateBarModelsData.
         /// </summary>
-        /// <param name="barModels">The barModels<see cref="ObservableCollection{BarModel}"/>.</param>
+        /// <param name="barChartModel">The barChartModel<see cref="BarChartViewModel"/>.</param>
         /// <param name="barValuesModels">The barValuesModels<see cref="IList{BarValuesModel}"/>.</param>
         /// <param name="positionIndex">The positionIndex<see cref="int"/>.</param>
-        public static void UpdateBarModelsData(this IList<BarModel> barModels, IList<BarValuesModel> barValuesModels, int positionIndex)
+        public static void UpdateBarModelsData(this BarChartViewModel barChartModel, IList<BarValuesModel> barValuesModels, int positionIndex)
         {
+            var barModels = barChartModel.BarModels;
             if (barModels.Count != barValuesModels.Count)
             {
                 throw new ArgumentException($"{nameof(UpdateBarModelsData)} Error: {nameof(barModels)} and {nameof(barValuesModels)} count is not equal.");
@@ -258,7 +259,7 @@
                 var valuesModel = barValuesModels[i];
                 barModel.IsSuspended = true;
                 barModel.Index = valuesModel.RankSteps[positionIndex];
-                var offset = (barModel.Index - valuesModel.RanksInterpolated[positionIndex]);
+                var offset = barChartModel.SortDirection == System.ComponentModel.ListSortDirection.Descending ? barModel.Index - valuesModel.RanksInterpolated[positionIndex] : valuesModel.RanksInterpolated[positionIndex] - barModel.Index;
                 var indexOffset = offset * barModel.BarContainerHeight;
 
                 /// Prevent the first winner is drawn outside the area.
@@ -287,12 +288,12 @@
                 }
             }
 
-            if (min >= max)
+            if (min >= max || barChartModel.IsVisibleRangeFromZero)
             {
                 min = 0;
             }
 
-            var visibleRange = new RangeDouble(0, max);
+            var visibleRange = new RangeDouble(min, max);
             for (var i = 0; i < barModels.Count; i++)
             {
                 barModels[i].VisibleRange = visibleRange;

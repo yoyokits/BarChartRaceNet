@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:BarChartRaceNet.Common"
-    xmlns:componentmodel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="clr-namespace:BarChartRaceNet.Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,12 +18,10 @@
             <common:BindingProxy x:Key="BarChartViewModelProxy" DataContext="{Binding}" />
             <CollectionViewSource
                 x:Key="BarModels"
+                extensions:CollectionViewSourceExtension.PropertyName="Index"
+                extensions:CollectionViewSourceExtension.SortDirection="{Binding SortDirection}"
                 IsLiveSortingRequested="True"
-                Source="{Binding BarModels}">
-                <CollectionViewSource.SortDescriptions>
-                    <componentmodel:SortDescription Direction="Descending" PropertyName="Index" />
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
+                Source="{Binding BarModels}" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="12">

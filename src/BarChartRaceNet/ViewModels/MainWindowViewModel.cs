@@ -7,6 +7,7 @@
     using MahApps.Metro.Controls;
     using System;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Windows;
     using System.Windows.Input;
 
@@ -98,6 +99,7 @@
         private void OnLoadCsvFile(string csvFilePath)
         {
             this.DatasetViewModel.CsvFilePath = csvFilePath;
+            this.ChartEditorViewModel.BarChartViewModel.Title = Path.GetFileName(csvFilePath);
         }
 
         /// <summary>

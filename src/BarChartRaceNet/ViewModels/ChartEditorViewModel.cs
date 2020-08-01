@@ -120,6 +120,47 @@
         }
 
         /// <summary>
+        /// The UpdateBarModelData.
+        /// </summary>
+        internal void UpdateBarModelData()
+        {
+            this.BarChartViewModel.UpdateBarModelsData(this.BarAnimationModel.BarValuesModels, this.BarAnimationModel.PositionIndex);
+        }
+
+        /// <summary>
+        /// The UpdateSettings.
+        /// </summary>
+        internal void UpdateSettings()
+        {
+            var settings = this.GlobalData.SettingsModel;
+            settings.BackgroundImage = this.BarChartViewModel.BackgroundImage;
+            settings.BackgroundImageOpacity = this.BarChartViewModel.BackgroundImageOpacity;
+            settings.BackgroundImageWidth = this.BarChartViewModel.BackgroundImageWidth;
+            settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
+            settings.BarSpace = this.BarChartViewModel.BarSpace;
+            settings.BarThickness = this.BarChartViewModel.BarThickness;
+            settings.ChartHeight = this.BarChartViewModel.Height;
+            settings.ChartWidth = this.BarChartViewModel.Width;
+            settings.DecimalPlaces = this.BarChartViewModel.DecimalPlaces;
+            settings.IsVisibleRangeFromZero = this.BarChartViewModel.IsVisibleRangeFromZero;
+            settings.SortDirection = this.BarChartViewModel.SortDirection;
+            settings.StatisticsMethod = this.BarChartViewModel.StatisticsMethod;
+            settings.Subtitle = this.BarChartViewModel.Subtitle;
+            settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
+            settings.Title = this.BarChartViewModel.Title;
+            settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
+            var dict = settings.StringToImageUrlDictionary;
+            foreach (var barModel in this.BarChartViewModel.BarModels)
+            {
+                var icon = barModel.Icon;
+                if (icon != null && icon.Contains("http"))
+                {
+                    dict[barModel.Name] = icon;
+                }
+            }
+        }
+
+        /// <summary>
         /// The Initialize.
         /// </summary>
         private void Initialize()
@@ -132,13 +173,17 @@
             this.BarChartViewModel.BarSpace = settings.BarSpace;
             this.BarChartViewModel.BarThickness = settings.BarThickness;
             this.BarChartViewModel.DecimalPlaces = settings.DecimalPlaces;
+            this.BarChartViewModel.IsVisibleRangeFromZero = settings.IsVisibleRangeFromZero;
             this.BarChartViewModel.Height = settings.ChartHeight;
+            this.BarChartViewModel.SortDirection = settings.SortDirection;
             this.BarChartViewModel.StatisticsMethod = settings.StatisticsMethod;
             this.BarChartViewModel.Subtitle = settings.Subtitle;
             this.BarChartViewModel.SubtitleFontSize = settings.SubtitleFontSize;
             this.BarChartViewModel.Title = settings.Title;
             this.BarChartViewModel.TitleFontSize = settings.TitleFontSize;
             this.BarChartViewModel.Width = settings.ChartWidth;
+
+            this.BarChartViewModel.PropertyChanged += this.OnBarChartViewModel_PropertyChanged;
         }
 
         /// <summary>
@@ -152,12 +197,13 @@
             {
                 case nameof(this.BarAnimationModel.BarValuesModels):
                     this.BarChartViewModel.BarModels.UpdateBarModels(this.BarAnimationModel.BarValuesModels, this.GlobalData.SettingsModel.StringToImageUrlDictionary);
+                    this.UpdateBarModelData();
                     this.BarChartViewModel.SelectedBarModel = this.BarChartViewModel.BarModels.First();
                     this.BarAnimationModel.PositionIndex = 0;
                     break;
 
                 case nameof(this.BarAnimationModel.PositionIndex):
-                    this.BarChartViewModel.BarModels.UpdateBarModelsData(this.BarAnimationModel.BarValuesModels, this.BarAnimationModel.PositionIndex);
+                    this.UpdateBarModelData();
                     this.BarChartViewModel.Time = this.BarAnimationModel.BarValuesModels.First().Times[this.BarAnimationModel.PositionIndex];
                     break;
 
@@ -174,6 +220,24 @@
         {
             var (view, _, _) = (ValueTuple<object, EventArgs, object>)obj;
             this.BarChartView = view as FrameworkElement;
+        }
+
+        /// <summary>
+        /// The OnBarChartViewModel_PropertyChanged.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="System.ComponentModel.PropertyChangedEventArgs"/>.</param>
+        private void OnBarChartViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(this.BarChartViewModel.IsVisibleRangeFromZero):
+                    this.UpdateBarModelData();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -215,37 +279,6 @@
             foreach (var barModel in this.BarChartViewModel.BarModels)
             {
                 barModel.Color = ColorPaletteProvider.GetNext();
-            }
-        }
-
-        /// <summary>
-        /// The UpdateSettings.
-        /// </summary>
-        internal void UpdateSettings()
-        {
-            var settings = this.GlobalData.SettingsModel;
-            settings.BackgroundImage = this.BarChartViewModel.BackgroundImage;
-            settings.BackgroundImageOpacity = this.BarChartViewModel.BackgroundImageOpacity;
-            settings.BackgroundImageWidth = this.BarChartViewModel.BackgroundImageWidth;
-            settings.BarNameFontSize = this.BarChartViewModel.BarNameFontSize;
-            settings.BarSpace = this.BarChartViewModel.BarSpace;
-            settings.BarThickness = this.BarChartViewModel.BarThickness;
-            settings.ChartHeight = this.BarChartViewModel.Height;
-            settings.ChartWidth = this.BarChartViewModel.Width;
-            settings.DecimalPlaces = this.BarChartViewModel.DecimalPlaces;
-            settings.StatisticsMethod = this.BarChartViewModel.StatisticsMethod;
-            settings.Subtitle = this.BarChartViewModel.Subtitle;
-            settings.SubtitleFontSize = this.BarChartViewModel.SubtitleFontSize;
-            settings.Title = this.BarChartViewModel.Title;
-            settings.TitleFontSize = this.BarChartViewModel.TitleFontSize;
-            var dict = settings.StringToImageUrlDictionary;
-            foreach (var barModel in this.BarChartViewModel.BarModels)
-            {
-                var icon = barModel.Icon;
-                if (icon != null && icon.Contains("http"))
-                {
-                    dict[barModel.Name] = icon;
-                }
             }
         }
 

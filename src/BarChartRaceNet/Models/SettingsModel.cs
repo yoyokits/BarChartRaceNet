@@ -2,6 +2,7 @@
 {
     using BarChartRaceNet.Core;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Windows;
 
     /// <summary>
@@ -62,9 +63,19 @@
         public string InitialDirectory { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether IsVisibleRangeFromZero.
+        /// </summary>
+        public bool IsVisibleRangeFromZero { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets the LastOpenedCsvFile.
         /// </summary>
         public string LastOpenedCsvFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SortDirection.
+        /// </summary>
+        public ListSortDirection SortDirection { get; set; }
 
         /// <summary>
         /// Gets or sets the StatisticsMethod.
