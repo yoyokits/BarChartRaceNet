@@ -26,10 +26,12 @@
             this.DatasetViewModel = new DatasetViewModel(this.GlobalData);
             this.ChartEditorViewModel = new ChartEditorViewModel(this.GlobalData);
             this.ChartEditorViewModel.BarAnimationModel.ReloadDataAction = this.ReloadData;
+            this.CancelRenderingButton = new CancelRenderingButton { CancelRenderingAction = this.OnCancelRendering };
             this.ToolBarButtons = new ObservableCollection<AddInButton>
             {
                 new LoadButton { InitialDirectory = this.GlobalData.SettingsModel.InitialDirectory, LoadAction = this.OnLoadCsvFile },
-                new ExportChartButton { ExportChartAction = this.ChartEditorViewModel.OnExportChart },
+                new ExportChartButton { ExportChartAction = this.OnExportChart },
+                this.CancelRenderingButton,
                 new AboutButton(this.GlobalData)
             };
             this.ClosingCommand = new RelayCommand(this.OnClosing);
@@ -39,6 +41,11 @@
         #endregion Constructors
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CancelRenderingButton.
+        /// </summary>
+        public CancelRenderingButton CancelRenderingButton { get; }
 
         /// <summary>
         /// Gets the ChartEditorViewModel.
@@ -84,12 +91,30 @@
         }
 
         /// <summary>
+        /// The OnCancelRendering.
+        /// </summary>
+        private void OnCancelRendering()
+        {
+            this.ChartEditorViewModel.CancelRendering();
+            this.CancelRenderingButton.IsEnabled = true;
+        }
+
+        /// <summary>
         /// The OnClosing.
         /// </summary>
         /// <param name="obj">The obj<see cref="object"/>.</param>
         private void OnClosing(object obj)
         {
             this.Dispose();
+        }
+
+        /// <summary>
+        /// The OnExportChart.
+        /// </summary>
+        private void OnExportChart()
+        {
+            this.CancelRenderingButton.IsEnabled = true;
+            this.ChartEditorViewModel.ExportChart();
         }
 
         /// <summary>

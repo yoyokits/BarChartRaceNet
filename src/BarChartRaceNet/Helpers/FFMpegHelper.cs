@@ -29,7 +29,8 @@
         /// <param name="element">The element<see cref="FrameworkElement"/>.</param>
         /// <param name="drawChartAction">The drawChartAction<see cref="Action{int}"/>.</param>
         /// <param name="frameCount">The frameCount<see cref="int"/>.</param>
-        public static void Record(string outputFilePath, FrameworkElement element, Action<int> drawChartAction, int frameCount)
+        /// <param name="token">The token<see cref="CancellationToken"/>.</param>
+        public static void Record(string outputFilePath, FrameworkElement element, Action<int> drawChartAction, int frameCount, CancellationToken token)
         {
             if (File.Exists(outputFilePath))
             {
@@ -39,29 +40,11 @@
             var codecArgs = new VideoCodecArgument(VideoCodec.LibX264);
             var videoType = VideoType.Mp4;
 
-            var videoFramesSource = new RawVideoPipeSource(CreateChartBitmaps(element, drawChartAction, frameCount));
+            var videoFramesSource = new RawVideoPipeSource(CreateChartBitmaps(element, drawChartAction, frameCount, token));
             var arguments = FFMpegArguments.FromPipe(videoFramesSource);
             arguments.WithArgument(codecArgs);
             var processor = arguments.OutputToFile(outputFilePath);
             processor.ProcessSynchronously();
-        }
-
-        /// <summary>
-        /// The BitmapFromSource.
-        /// </summary>
-        /// <param name="bitmapsource">The bitmapsource<see cref="BitmapSource"/>.</param>
-        /// <returns>The <see cref="System.Drawing.Bitmap"/>.</returns>
-        private static System.Drawing.Bitmap BitmapFromSource(BitmapSource bitmapsource)
-        {
-            System.Drawing.Bitmap bitmap;
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                enc.Frames.Add(BitmapFrame.Create(bitmapsource));
-                enc.Save(outStream);
-                bitmap = new System.Drawing.Bitmap(outStream);
-            }
-            return bitmap;
         }
 
         /// <summary>
@@ -70,8 +53,9 @@
         /// <param name="element">The element<see cref="FrameworkElement"/>.</param>
         /// <param name="drawChartAction">The drawChartAction<see cref="Action{int}"/>.</param>
         /// <param name="frameCount">The frameCount<see cref="int"/>.</param>
+        /// <param name="token">The token<see cref="CancellationToken"/>.</param>
         /// <returns>The <see cref="IEnumerable{IVideoFrame}"/>.</returns>
-        private static IEnumerable<IVideoFrame> CreateChartBitmaps(FrameworkElement element, Action<int> drawChartAction, int frameCount)
+        private static IEnumerable<IVideoFrame> CreateChartBitmaps(FrameworkElement element, Action<int> drawChartAction, int frameCount, CancellationToken token)
         {
             var width = (int)element.ActualWidth;
             var height = (int)element.ActualHeight;
@@ -84,6 +68,11 @@
 
             for (var frame = 0; frame < frameCount; frame++)
             {
+                if (token.IsCancellationRequested)
+                {
+                    yield break;
+                }
+
                 var stream = new MemoryStream();
                 element.Invoke(() =>
                 {

@@ -32,6 +32,8 @@
             {
                 this.SettingsModel = new SettingsModel();
             }
+
+            this.DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
         }
 
         #endregion Constructors
@@ -53,6 +55,11 @@
         /// </summary>
         public SettingsModel SettingsModel { get; }
 
+        /// <summary>
+        /// Gets the DialogCoordinator.
+        /// </summary>
+        internal IDialogCoordinator DialogCoordinator { get; }
+
         #endregion Properties
 
         #region Methods
@@ -70,11 +77,11 @@
             Task<MessageDialogResult> result = null;
             if (dispatcher.CheckAccess())
             {
-                return this.MainWindow.ShowMessageAsync(title, message, style).Result;
+                return this.DialogCoordinator.ShowMessageAsync(this, title, message, style).Result;
             }
             else
             {
-                await dispatcher.BeginInvoke((Action)(() => result = this.MainWindow.ShowMessageAsync(title, message, style)));
+                await dispatcher.BeginInvoke((Action)(() => result = this.DialogCoordinator.ShowMessageAsync(this, title, message, style)));
             }
 
             await result;

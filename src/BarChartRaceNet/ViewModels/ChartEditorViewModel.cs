@@ -6,6 +6,7 @@
     using Ookii.Dialogs.Wpf;
     using System;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
@@ -72,6 +73,11 @@
         /// </summary>
         internal string InitialDirectory { get; set; } = AppEnvironment.UserDocumentsFolder;
 
+        /// <summary>
+        /// Gets or sets the RenderCancellationTokenSource.
+        /// </summary>
+        private CancellationTokenSource RenderCancellationTokenSource { get; set; }
+
         #endregion Properties
 
         #region Methods
@@ -84,9 +90,17 @@
         }
 
         /// <summary>
+        /// The CancelRendering.
+        /// </summary>
+        internal void CancelRendering()
+        {
+            this.RenderCancellationTokenSource?.Cancel();
+        }
+
+        /// <summary>
         /// The OnExportChart.
         /// </summary>
-        internal void OnExportChart()
+        internal void ExportChart()
         {
             var fileName = $"{this.BarChartViewModel.Title}.mp4";
             var dialog = new VistaSaveFileDialog
@@ -106,17 +120,20 @@
                 filePath += ".mp4";
             }
 
+            this.RenderCancellationTokenSource?.Cancel();
+            this.RenderCancellationTokenSource = new CancellationTokenSource();
+            var token = this.RenderCancellationTokenSource.Token;
             Task.Run(() =>
             {
                 try
                 {
-                    FFMpegHelper.Record(filePath, this.BarChartView, this.OnDrawChart, this.BarAnimationModel.FrameCount);
+                    FFMpegHelper.Record(filePath, this.BarChartView, this.OnDrawChart, this.BarAnimationModel.FrameCount, token);
                 }
                 catch (Exception e)
                 {
                     this.GlobalData.ShowMessageAsync($"Export Failed", $"Error: {e.Message}");
                 }
-            });
+            }, token);
         }
 
         /// <summary>
