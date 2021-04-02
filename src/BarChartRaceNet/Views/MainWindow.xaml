@@ -12,6 +12,7 @@
     Width="800"
     Height="450"
     d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel}"
+    mah:DialogParticipation.Register="{Binding GlobalData}"
     Closing="{extensions:EventBinding ClosingCommand,
                                       CommandParameter={Binding RelativeSource={RelativeSource Self}}}"
     GlowBrush="{DynamicResource AccentColorBrush}"

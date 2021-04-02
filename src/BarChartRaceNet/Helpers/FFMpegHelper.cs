@@ -41,9 +41,9 @@
             var videoType = VideoType.Mp4;
 
             var videoFramesSource = new RawVideoPipeSource(CreateChartBitmaps(element, drawChartAction, frameCount, token));
-            var arguments = FFMpegArguments.FromPipe(videoFramesSource);
-            arguments.WithArgument(codecArgs);
-            var processor = arguments.OutputToFile(outputFilePath);
+            var arguments = FFMpegArguments.FromPipeInput(videoFramesSource);
+            ////arguments.WithArgument(codecArgs);
+            var processor = arguments.OutputToFile(outputFilePath, true, (option) => option.WithArgument(codecArgs));
             processor.ProcessSynchronously();
         }
 
