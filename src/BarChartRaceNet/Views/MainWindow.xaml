@@ -28,7 +28,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
@@ -58,6 +59,10 @@
             Grid.Row="1"
             Margin="8"
             DataContext="{Binding ChartEditorViewModel}" />
-        <views:DatasetView Grid.Row="2" DataContext="{Binding DatasetViewModel}" />
+        <GridSplitter
+            Grid.Row="2"
+            Height="5"
+            HorizontalAlignment="Stretch" />
+        <views:DatasetView Grid.Row="3" DataContext="{Binding DatasetViewModel}" />
     </Grid>
 </mah:MetroWindow>
