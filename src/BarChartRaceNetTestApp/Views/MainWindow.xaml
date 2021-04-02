@@ -1,0 +1,36 @@
+﻿<mah:MetroWindow
+    x:Class="BarChartRaceNetTestApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extension="clr-namespace:BarChartRaceNet.Extensions;assembly=BarChartRaceNet"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:BarChartRaceNetTestApp.ViewModels"
+    Title="BarChartRaceTestApp"
+    d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel}"
+    Closed="{extension:EventBinding Command={Binding ClosedCommand}}"
+    Loaded="{extension:EventBinding Command={Binding LoadedCommand},
+                                    CommandParameter={Binding RelativeSource={RelativeSource Self}}}"
+    SizeToContent="WidthAndHeight"
+    mc:Ignorable="d">
+    <Grid>
+        <ItemsControl ItemsSource="{Binding Tests}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        Width="200"
+                        Margin="4"
+                        Command="{Binding TestCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=mah:MetroWindow}}"
+                        Content="{Binding Name}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</mah:MetroWindow>
