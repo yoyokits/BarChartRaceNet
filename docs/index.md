@@ -1,21 +1,31 @@
 ## Welcome to Bar Chart Race Generator
 
-Bar Chart Race is used to visualize the progress of some development in an MPEG videos.<br/>
+Bar Chart Race is a free application used to visualize the progress of some development in an MPEG videos.<br/>
 
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CekliBarChartRaceVersionAlpha0.jpg"><br/>
 The screenshot of Bar Chart Race Generator
-
 
 {% include youtube_embed.html id="Xtnz7N6mwX4" %}
 The video example of Bar Chart Race output
 
 The input of for this application is CVS files that can be exported from your Excell sheet or simply created using Notepad.<br/>
-The CVS example can be downloaded from:<br/>
 
-[CVS example](https://yoyokits.github.io/BarChartRaceNet/examples/CountryTest.csv).
+The CVS example can be downloaded from [CVS example](https://github.com/yoyokits/BarChartRaceNet/tree/master/docs/examples).
 
 The cvs file is like:
 
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CsvSourceExample.jpg"><br/>
 
+Installation:<br/>
+1. [Download the latest release in zip file.](https://github.com/yoyokits/BarChartRaceNet/releases)
+2. Extract the zip file in the Program Files or your favourite folder
+3. Simply double click BarChartRaceNet.exe
 
+Usages:
+1. Double click BarChartRaceNet.exe
+2. Click load button on the top left of the window
+3. Select the csv file with format above
+4. Adjust the settings like add icon for every bar and background
+5. Generate the bar chart race animation in a MPEG format by clicking Export to Video button on the right side of load button 
+6. Select the output folder and file name and press Save
+7. Wait until the process is done
