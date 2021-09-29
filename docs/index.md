@@ -5,14 +5,13 @@ Bar Chart Race is a free application used to visualize the progress of some deve
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CekliBarChartRaceVersionAlpha0.jpg"><br/>
 The screenshot of Bar Chart Race Generator
 
-{% include youtube_embed.html id="Xtnz7N6mwX4" %}
-The video example of Bar Chart Race output
+The video example of Bar Chart Race output: [Youtube example](https://www.youtube.com/watch?v=onQ0V4cIgMQ)
 
-The input of for this application is CVS files that can be exported from your Excell sheet or simply created using Notepad.<br/>
+The input of for this application is CSV files that can be exported from your Excell sheet or simply created using Notepad.<br/>
 
-The CVS example can be downloaded from [CVS example](https://github.com/yoyokits/BarChartRaceNet/tree/master/docs/examples).
+The CSV example can be downloaded from [CSV example](https://github.com/yoyokits/BarChartRaceNet/tree/master/docs/examples).
 
-The cvs file is like:
+The CSV file is like:
 
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CsvSourceExample.jpg"><br/>
 
@@ -29,3 +28,5 @@ Usages:
 5. Generate the bar chart race animation in a MPEG format by clicking Export to Video button on the right side of load button 
 6. Select the output folder and file name and press Save
 7. Wait until the process is done
+
+If you have a problem please ask me in [Facebook StatAnim Page](https://www.facebook.com/StatAnim-106525391163002) or open an issue here.

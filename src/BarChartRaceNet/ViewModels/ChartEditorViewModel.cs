@@ -100,8 +100,17 @@
         /// <summary>
         /// The OnExportChart.
         /// </summary>
-        internal void ExportChart()
+        internal async void ExportChart()
         {
+            if (!FFMpegHelper.IsFFMpegLibExist)
+            {
+                var title = $"FFMpeg Library {FFMpegHelper.FFMpegLib} Not Found";
+                var message = $"Please download {FFMpegHelper.FFMpegLib} from https://ffbinaries.com/downloads," +
+                    $" extract and copy to the application path.";
+                await this.GlobalData.ShowMessageAsync(title, message);
+                return;
+            }
+
             var fileName = $"{this.BarChartViewModel.Title}.mp4";
             var dialog = new VistaSaveFileDialog
             {
@@ -123,7 +132,7 @@
             this.RenderCancellationTokenSource?.Cancel();
             this.RenderCancellationTokenSource = new CancellationTokenSource();
             var token = this.RenderCancellationTokenSource.Token;
-            Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -131,7 +140,7 @@
                 }
                 catch (Exception e)
                 {
-                    this.GlobalData.ShowMessageAsync($"Export Failed", $"Error: {e.Message}");
+                    await this.GlobalData.ShowMessageAsync($"Export Failed", $"Error: {e.Message}\r\n{e.StackTrace}");
                 }
             }, token);
         }
