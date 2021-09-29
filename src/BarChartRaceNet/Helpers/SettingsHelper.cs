@@ -70,7 +70,7 @@
         /// <returns>The <see cref="SettingsModel"/>.</returns>
         internal static SettingsModel Load()
         {
-            Logger.Info($"Loading Browser setting {UserJsonSettingsPath}");
+            Logger.Info($"Loading {AppEnvironment.LongName} setting {UserJsonSettingsPath}");
             if (!File.Exists(UserJsonSettingsPath))
             {
                 return null;
@@ -87,7 +87,7 @@
             }
             catch (Exception e)
             {
-                Logger.Error($"Error Loading Browser Setting: {e.Message}");
+                Logger.Error($"Error Loading {AppEnvironment.LongName} Setting: {e.Message}");
             }
 
             return null;

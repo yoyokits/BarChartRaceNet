@@ -20,6 +20,27 @@
     /// </summary>
     public static class FFMpegHelper
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the FFMpegLib.
+        /// </summary>
+        public static string FFMpegLib { get; } = "ffmpeg.exe";
+
+        /// <summary>
+        /// Gets a value indicating whether IsFFMpegLibExist.
+        /// </summary>
+        public static bool IsFFMpegLibExist
+        {
+            get
+            {
+                var exist = File.Exists(FFMpegLib);
+                return exist;
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>

@@ -11,7 +11,15 @@
 
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
-    <Version>0.1.0</Version>
+    <Version>0.1.0.1</Version>
+
+    <RepositoryUrl>https://github.com/yoyokits/BarChartRaceNet</RepositoryUrl>
+
+    <Company>Cekli</Company>
+
+    <PackageProjectUrl>https://github.com/yoyokits/BarChartRaceNet</PackageProjectUrl>
+
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,11 +41,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
-    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

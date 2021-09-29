@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets or sets the DecimalPlaces.
         /// </summary>
-        public int DecimalPlaces { get; set; }
+        public int DecimalPlaces { get; set; } = 3;
 
         /// <summary>
         /// Gets or sets the InitialDirectory.
