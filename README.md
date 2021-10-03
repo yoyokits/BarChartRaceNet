@@ -5,17 +5,16 @@ Bar Chart Race is used to visualize the progress of some development in an MPEG 
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CekliBarChartRaceVersionAlpha0.jpg"><br/>
 The screenshot of Bar Chart Race Generator
 
-The more complete documentation can be read in the [Bar Chart Race Website](https://yoyokits.github.io/BarChartRaceNet/).
-
-The video example of Bar Chart Race output: [Youtube example](https://www.youtube.com/watch?v=onQ0V4cIgMQ)
-
-The input of for this application is CSV files that can be exported from your Excell sheet or simply created using Notepad.<br/>
-
-The CVS example can be downloaded from [CSV example](https://github.com/yoyokits/BarChartRaceNet/tree/master/docs/examples).
-
-The CSV file is like:
+Some information about this application:
+- More complete documentation can be read in the [Bar Chart Race Website](https://yoyokits.github.io/BarChartRaceNet/).
+- Example of Bar Chart Race output: [Youtube example](https://www.youtube.com/watch?v=onQ0V4cIgMQ)
+- Input of for this application is CSV files that can be exported from your Excel sheet or simply created using Notepad.<br/>
+- CVS examples are included in the zip bundle and can also be downloaded from [CSV example](https://github.com/yoyokits/BarChartRaceNet/tree/master/docs/examples).
 
 <img src="https://yoyokits.github.io/BarChartRaceNet/images/CsvSourceExample.jpg"><br/>
+The CSV content example in Notepad
+
+Tutorial from installation to usages in youtube: https://www.youtube.com/watch?v=zg647SUgn88
 
 Installation:<br/>
 1. [Download the latest release in zip file.](https://github.com/yoyokits/BarChartRaceNet/releases)
