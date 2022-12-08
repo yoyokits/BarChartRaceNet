@@ -27,7 +27,7 @@
     <PackageReference Include="FFMpegCore" Version="4.5.0" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="MahApps.Metro" Version="2.4.7" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Ookii.Dialogs.Wpf.NETCore" Version="2.2.1" />
   </ItemGroup>
 </Project>
