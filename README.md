@@ -2,7 +2,7 @@
 
 Bar Chart Race is used to visualize the progress of some development in an MPEG videos.<br/>
 
-<img src="https://yoyokits.github.io/BarChartRaceNet/images/CekliBarChartRaceVersionAlpha0.jpg"><br/>
+<img src="https://yoyokits.github.io/BarChartRaceNet/images/BarChartRaceTutorialShort.gif"><br/>
 The screenshot of Bar Chart Race Generator
 
 The more complete documentation can be read in the [Bar Chart Race Website](https://yoyokits.github.io/BarChartRaceNet/).
