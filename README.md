@@ -31,4 +31,9 @@ Usages:
 6. Select the output folder and file name and press Save
 7. Wait until the process is done
 
+Important:<br/>
+Please download ffmpeg.exe and put it on the same folder with BarChartRaceNet.exe<br/>
+Download FFMpeg from: [https://ffbinaries.com/downloads]<br/>
+Sorry for it, since I am not really sure whether I can redistribute it or not.<br/>
+
 If you have a problem please ask me in [Facebook StatAnim Page](https://www.facebook.com/StatAnim-106525391163002) or open an issue here.
