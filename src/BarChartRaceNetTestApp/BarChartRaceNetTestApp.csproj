@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <Version>0.1.0.1</Version>
     <Platforms>AnyCPU;x64</Platforms>
-    <SignAssembly>true</SignAssembly>
+	  <TargetFramework>net8.0-windows</TargetFramework>
+	  <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Company>Cekli</Company>
     <RepositoryUrl>https://github.com/yoyokits/BarChartRaceNet</RepositoryUrl>
@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
   </ItemGroup>
 
   <ItemGroup>

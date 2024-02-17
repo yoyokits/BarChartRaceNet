@@ -1,9 +1,15 @@
-﻿namespace BarChartRaceNet.Helpers
+﻿// ========================================== //
+// Developer: Yohanes Wahyu Nurcahyo          //
+// Website: https://github.com/yoyokits       //
+// ========================================== //
+
+namespace BarChartRaceNet.Helpers
 {
     using FFMpegCore;
     using FFMpegCore.Arguments;
     using FFMpegCore.Enums;
     using FFMpegCore.Extend;
+    using FFMpegCore.Extensions.System.Drawing.Common;
     using FFMpegCore.Pipes;
     using System;
     using System.Collections.Generic;
